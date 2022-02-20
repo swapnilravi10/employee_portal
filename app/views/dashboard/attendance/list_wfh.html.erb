@@ -1,0 +1,63 @@
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+    .add-employee-btn{
+      background-color: #c2ea7a;
+      border: 0px;
+      border-radius: 25px;
+      color: #333333!important;
+      margin-top:10px;  
+   }
+}
+</style>
+
+
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mb-5 pl-5 pr-5">
+<% if @wfh.blank? %>
+<%= link_to 'Add WFH' , dashboard_attendance_wfh_path, :action=> 'work_from_home', :class=> 'float-right  btn btn-primary add-employee-btn' %>
+    <h2 class="text-center mt-5">No employees working from home yet</h2>
+<% else %>
+<%= link_to 'Add WFH' , dashboard_attendance_wfh_path, :action=> 'work_from_home', :class=> 'float-right  btn btn-primary add-employee-btn' %>
+  <h2 class="text-center page-title mt-5">Employees working from home</h2>
+  
+  <%= render "shared_admin/flash" %>
+  <p></p>            
+  <table class="table table-hover table-striped mt-5">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th width="18%"><input class="form-control" type="text" style="font-size:12px;" id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% @wfh.each do |w| %>
+      <tr>
+        <td><%= w.requestee.full_name -%></td>
+        <td><%= w.start_time.strftime("%Y-%m-%d") -%></td>
+        <% if w.end_time.blank? %>
+        <td> ------------ </td>
+        <% else %>
+        <td><%= w.end_time.strftime("%Y-%m-%d") -%></td>
+        <% end %>
+        <td style="padding-left:5%;">
+        <%= link_to dashboard_attendance_destroy_path(:id=> w.id) , method: :delete, data: {confirm: 'Are you sure?'} do %>
+          <%= image_tag('delete_icon.png') %>
+        <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+    
+  </table>
+  <%= paginate @wfh ,remote: true %>
+</div>
+<% end %>
+</div>
+</body>
+</html>

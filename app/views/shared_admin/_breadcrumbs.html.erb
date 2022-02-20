@@ -1,0 +1,15 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to 'Home', :action => 'index', :controller => 'dashboard/admin' %></li>
+    <% @breadcrumbs.each do |breadcrumb| %>
+        <% if breadcrumb[:path].blank? %>
+        <li class="breadcrumb-item" aria-current="page">
+            <%= breadcrumb[:label] %>
+        </li>
+        <% else %>
+        <li class="breadcrumb-item">
+            <%= link_to breadcrumb[:label], breadcrumb[:path]%>
+        <% end %>
+    <% end %>
+  </ol>
+</nav>

@@ -1,0 +1,358 @@
+// Place all the styles related to the Admin controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+body {
+  font-family: "Oswald", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  // font-smoothing: antialiased;
+  background-color: #f7f7f7 !important;
+}
+
+.dashboard-card{
+  font-size: 18px;font-weight: normal;margin-bottom: 20px;text-transform:capitalize;color: #777777;
+}
+
+h4 {
+  line-height: .95;
+  color: #143541;
+  font-weight: 900;
+  font-size: 30px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+.center {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 581px;
+  height: 50%;
+}
+
+footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+
+.well {
+  padding: 10px !important;
+}
+
+.employee-header-section {
+  background-color: #e0e0e0;
+  padding-top:5%;
+  padding-bottom: 3%;
+  color: rgb(61, 61, 61);
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+
+.my-custom-scrollbar {
+  position: relative;
+  height: 500px;
+  overflow: auto;
+  }
+  .table-wrapper-scroll-y {
+  display: block;
+  }
+
+
+  @mixin object-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+    
+  a:hover {
+    text-decoration: none;
+    }
+  
+  .profile-pic {
+    height: 150px;
+    width: 150px;
+    background-size: cover;
+    border-radius: 8px;
+    background-position: center;
+    background-blend-mode: multiply;
+    color: transparent;
+    transition: all .3s ease;
+    @include object-center;
+  
+    &:hover {
+      background-color: rgba(0,0,0,.5);
+      z-index: 10000;
+      color: rgba(250,250,250,1);
+      transition: all .3s ease;
+      border-radius: 8px;
+    }
+    
+    span {
+      display: inline-flex;
+      padding: .2em;
+    }
+  }
+
+
+  .profile-picture {
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    color: transparent;
+    transition: all .3s ease;
+    @include object-center;
+    
+    span {
+      display: inline-flex;
+      padding: .2em;
+    }
+  }
+
+  .pp{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    color: transparent;
+    transition: all .3s ease;
+    @include object-center;
+    
+    span {
+      display: inline-flex;
+      padding: .2em;
+    }
+    
+  }
+
+  .cp{
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    color: transparent;
+    transition: all .3s ease;
+    @include object-center;
+    
+    span {
+      display: inline-flex;
+      padding: .2em;
+    }
+    
+  }
+
+  .delete-comment{
+    width: 15px;
+    height: 15px;
+    margin-left: 68%;
+    margin-top: 2%;
+  }
+  
+  .status-button{
+    width: auto;
+    background-color: #c2ea7a;
+    border-width: thin;
+    color: #5a5757;
+    text-align: left;
+    padding: 1px 5px;
+    border: 0px;
+    margin-left: 10px;
+    border-radius: 5px;
+  }
+  .logedin-user{
+    font-size: 16px;
+    color: #131313!important;
+  }
+
+.dashboard-div-head {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.dashboard-divs {
+  background-color: #fff;
+  padding:15px 25px;
+  border-radius: 8px;
+  margin-bottom:20px;
+  border: 1px solid #ededed;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  max-height: 700px;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: scroll
+}
+.page-title {
+  color: #1f1f1f;
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding-top: 10px;
+}
+.table-striped>tbody>tr:nth-child(even)>td, 
+.table-striped>tbody>tr:nth-child(even)>th {
+  background-color: #ffffff; // Choose your own color here
+  
+}
+.table-striped>tbody>tr:nth-child(odd)>td{
+  font-size:16px;
+}
+.table-striped>tbody>tr:nth-child(even)>td{
+  font-size:16px;
+}
+.table{
+  color: #333333;
+}
+.nav-tabs .nav-link.active {
+  color: #495057;
+  background-color: #c2ea7a!important;
+  border-color: #dee2e6 #dee2e6 #fff!important;
+  border-top-left-radius: 8px!important;
+  border-top-right-radius: 8px!important;
+}
+.nav-tabs{
+  font-size: 16px;
+}
+.tab-pane {
+  padding: 15px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+.tab-padding{
+  padding: 15px!important;
+}
+.add-employee-btn{
+  background-color: #c2ea7a!important;
+  border: 0px!important;
+  border-radius: 25px!important;
+  color: #333333!important;
+}
+.add-employee-btn:hover{
+  background-color: #91B05C!important;
+}
+.add-new-emp-btn{
+background-color: #c2ea7a!important;
+border: 0px!important;
+border-radius: 25px!important;
+color: #333333!important;
+padding: 6px 30px !important;
+margin-top: 20px;
+}
+.add-new-emp-btn:hover{
+  background-color: #91B05C!important;
+}
+.nav-link {
+  color: #444444!important;
+}
+.tab-pane {
+  padding: 15px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+.tab-padding{
+  padding: 15px!important;
+}
+.add-employee-btn{
+  background-color: #c2ea7a!important;
+  border: 0px!important;
+  border-radius: 25px!important;
+  color: #333333!important;
+}
+.add-employee-btn:hover{
+  background-color: #91B05C!important;
+}
+.add-new-emp-btn{
+background-color: #c2ea7a!important;
+border: 0px!important;
+border-radius: 25px!important;
+color: #333333!important;
+padding: 6px 30px !important;
+margin-top: 20px;
+}
+.add-new-emp-btn:hover{
+  background-color: #91B05C!important;
+}
+.nav-link {
+  color: #444444!important;
+}
+.emp-leave-searchbox{
+  font-size: 10px !important;
+  width: 50% !important;
+  float: right;
+  margin-top: 10px;
+}
+.modal-border{
+  border-bottom: 0px!important;
+}
+.table{
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: #cccccc;
+}
+.dropdown-item:active {
+  text-decoration: none;
+  background-color: #ffffff!important;
+}
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 4px rgb(192, 192, 192); 
+  border-radius: 7px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(175, 175, 175); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6b6b6b; 
+}
+
+.user-post-name{
+  font-size: medium;
+  color: black;
+}
+
+.user-post-posted-on{
+  font-size: 12px;
+  margin-left: 0px;
+  margin-top: -10px;
+  color: #666
+}
+.comment-box {
+  padding:0px 15px;
+  border:0px;
+}
+.comment-btn{
+  background-color: #c2ea7a!important;
+  border: 0px!important;
+  border-radius: 25px!important;
+  color: #333333!important;
+  padding: 6px 15px !important;
+  }
+  .comment-btn:hover{
+    background-color: #91B05C!important;
+  }

@@ -1,0 +1,24 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<style>
+td div {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+}
+
+</style>
+<div class="container mb-5 pr-5 pl-5" id="main_container">
+<%= link_to 'Add Leave' , new_dashboard_empleave_path, :action=> 'new', :class=> 'float-right mt-2 btn btn-primary add-employee-btn' %>
+<%= render "shared_admin/flash" %>
+<%= render "leaves" %>
+</div>
+
+</body>
+</html>

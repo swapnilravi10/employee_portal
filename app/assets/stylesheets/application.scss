@@ -1,0 +1,69 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require croppie
+ */
+ 
+ @import "simple_calendar";
+
+ .post-box{
+    background-color: #f7f7f7;
+    text-align: left;
+    font-weight: bold;
+    border-radius: 8px;
+    border-width: thin;
+    padding: 12px;
+    width: 100%;
+    color: #989898;
+    outline: none;
+    border: 1px solid #ccc;
+ }
+.no-post{
+    text-align: center;
+    font-size: 16px;
+    color: #999999;
+}
+.no-post-img{
+    width: 100px;
+}
+.full-width {
+    width: 97.5%;
+    margin:0px auto;
+}
+ .post-box:focus{
+     outline: none;
+ }
+
+ .comment-box{
+    border: 0px outset #f6f6f6;
+    background-color: #f6f6f6;
+    // text-align: center;
+    padding-top:10px;
+ }
+
+ .delete-post{
+     padding-left: 48%;
+ }
+.status-label {
+    font-size: 11px;
+    margin-left: 5px;
+    padding: 3px;
+    border-radius: 5px;
+    font-weight: 700;
+    border: 1px solid #404040;
+    color: #676363;
+    vertical-align: initial;
+    background-color: #f4f3f3;
+}
+ 

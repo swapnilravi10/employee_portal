@@ -1,0 +1,135 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<h2 class="text-center mb-5 page-title">Update Employee</h2>
+<%= render "shared_admin/flash" %>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#basic_details">Basic details</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#bank_details">Bank details</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#education_details">Educational details</a></li>
+    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#work_ex">Work experience</a></li>
+  </ul>
+<%= form_for @employee, :url =>{:action => "update", :id =>@employee.id} do |e| %>
+<div class="tab-content">
+<div id="basic_details" class="container tab-pane active mt-4">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">First name</label>
+      <%= e.text_field 'first_name' , class: "form-control", placeholder:"First name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Last name</label>
+      <%= e.text_field 'last_name', class: "form-control", placeholder:"Last name"%>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="email">Email</label>
+      <%= e.text_field 'email', class: "form-control", placeholder:"Email "%>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="phone_number">Phone number</label>
+      <%= e.text_field 'phone_number', class: "form-control", placeholder:"Phone number",:maxlength => 15 %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="role">Role</label>
+      <%= collection_select(:assignment, :role_id, Role.all, :id, :role_name, {prompt: true}, {class: 'form-control new-role-search', multiple: true}) %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="designation">Designation</label>
+      <%= e.collection_select(:designation_id, @designations, :id, :get_designation_name, {prompt: true}, {class: 'form-control new-role-search'}) %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="email">Adhar number</label>
+      <%= e.text_field 'adhar_card_number', class: "form-control", placeholder:"Adhar number",:maxlength => 12 %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="phone_number">PAN</label>
+      <%= e.text_field 'pan_card_number', class: "form-control", placeholder:"PAN",:maxlength => 10 %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_name">Emergency contact name</label>
+      <%= e.text_field 'emergency_contact_name', class: "form-control", placeholder:"Emergency contact name"%>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_number">Emergency contact number</label>
+      <%= e.text_field 'emergency_contact_number', class: "form-control", placeholder:"Emergency contact number",:maxlength => 10 %>
+    </div>
+  </div>
+</div>
+<div id="bank_details" class="container tab-pane fade mt-4">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Bank name</label>
+      <%= text_field :bankdetail ,:bank_name , class: "form-control", placeholder:"Bank name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Account number</label>
+      <%= text_field :bankdetail, :account_number , class: "form-control", placeholder:"Account number",:maxlength => 20  %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="email">IFSC code</label>
+      <%= text_field :bankdetail, :ifsc_code ,class: "form-control", placeholder:"IFSC",:maxlength => 12 %>
+    </div>
+  </div>
+</div>
+<div id="education_details" class="container tab-pane fade mt-4">
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Highest education</label>
+      <%= text_field :employeeeducation ,'highest_education' , class: "form-control", placeholder:"Highest education" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Year of passing</label>
+      <%= number_field :employeeeducation, 'year_of_passing' , class: "form-control", placeholder:"Year of passing"  %>
+    </div>
+     <div class="form-group col-md-6">
+      <label for="first_name">University</label>
+      <%= text_field :employeeeducation ,'university' , class: "form-control", placeholder:"University" %>
+    </div>
+     <div class="form-group col-md-6">
+      <label for="first_name">College</label>
+      <%= text_field :employeeeducation ,'college' , class: "form-control", placeholder:"College" %>
+    </div>
+  </div>
+</div>
+<div id="work_ex" class="container tab-pane fade mt-4">
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Duration of work with previous employer(s)</label>
+      <%= number_field :workexperience ,'duration_of_work' , step: :any, class: "form-control", placeholder:"0.5 or 2.3" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Role</label>
+      <%= text_field :workexperience, 'role' , class: "form-control", placeholder:"Role"%>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Technologies known</label>
+      <%= collection_select(:usertechnologies, :technology_id, @technology, :id, :name, {prompt: true}, {class: 'form-control team-members-search', :multiple=>true}) %>
+    </div>
+</div>
+    <label>Edit user technologies</label>
+    <ol>
+      <% @user_tech.each do |ut| %>
+         <%= ut.technology.name %> 
+         <%= link_to ut, :action => :destroy_user_tech, :tech_id => ut.technology_id, :id => ut.user_id, method: :delete, data: {confirm: 'Are you sure?'} do %>
+          <%= image_tag('delete_icon.png') %> <hr>
+        <% end %>
+      <% end %>
+    </ol>
+</div>
+  <button type="submit" class="btn btn-primary add-new-emp-btn">Update</button>
+</div>
+<% end -%>  
+<script>
+  $(document).ready(function() {
+    $('.new-role-search').select2()
+  })
+</script>

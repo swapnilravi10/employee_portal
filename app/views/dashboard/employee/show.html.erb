@@ -1,0 +1,61 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+  <div class="mb-5 row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2 p-2 border">
+      <% if @employee&.avatar.attached? %>
+        <div class="profile-pic p-1" style="background-image: url(<%= rails_blob_url(@employee&.avatar) %>); width:100%;height:161px;">
+        </div>
+      <% else %>
+        <div class="profile-pic p-1" style="background-image: url(/assets/profilepicturelogo.jpg); width:100%;height:161px; border-radius:8px; background-size:cover;border: 1px solid #eaeaea;"  >
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-5"></div>
+  </div>
+  <div class="border p-3 bg-white">
+    <div><h4 class="page-title">Personal Details</h4></div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6 mb-2 mt-1"> <b> Name : </b> <%= @employee&.full_name %> </div>
+      <div class="col-md-6 mb-2 mt-1"> <b> Email : </b> <%= @employee&.email %> </div>
+      <div class="col-md-6 mb-2"> <b> Phone number : </b> <%= @employee&.phone_number %> </div>
+      <div class="col-md-6 mb-2"> <b> Role : </b> <%= @employee&.roles&.map {|r| r.name}.join(', ') %> </div>
+      <div class="col-md-6 mb-2"> <b> Designation : </b> <%= @employee&.designation&.name %> </div>
+      <div class="col-md-6 mb-2"> <b> Adhar number : </b> <%= @employee&.adhar_card_number %> </div>
+      <div class="col-md-6 mb-2"> <b> PAN : </b> <%= @employee&.pan_card_number %> </div>
+      <div class="col-md-6 mb-2"> <b> Date of joining : </b> <%= @employee&.date_of_joining.strftime("%B %Y") %> </div>
+      <div class="col-md-6 mb-2"> <b> Emergency contact name : </b> <%= @employee&.emergency_contact_name %> </div>
+      <div class="col-md-6 mb-2"> <b> Emergency contact number : </b> <%= @employee&.emergency_contact_number %> </div>
+    </div>
+  </div>
+  <div class="border p-3 mt-4 bg-white">
+    <div><h4 class="page-title">Bank Details</h4></div>
+      <hr>
+    <div class="row">
+      <div class="col-md-12 mb-2 mt-1"> <b> Bank name : </b> <%= @bankdetail&.bank_name %> </div>
+      <div class="col-md-6 mb-2"> <b> Account number : </b> <%= @bankdetail&.account_number %> </div>
+      <div class="col-md-6 mb-2"> <b> IFSC code : </b> <%= @bankdetail&.ifsc_code %> </div>
+    </div>
+  </div>
+  <div class="border p-3 mt-4 bg-white">
+    <div><h4 class="page-title">Education Details</h4></div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12 mb-2 mt-1"> <b> Highest education : </b> <%= @employeeeducation&.highest_education %> </div>
+      <div class="col-md-6 mb-2 mt-1"> <b> Year of passing : </b> <%= @employeeeducation&.year_of_passing %> </div>
+      <div class="col-md-6 mb-2"> <b> College : </b> <%= @employeeeducation&.college %> </div>
+      <div class="col-md-6 mb-2"> <b> University : </b> <%= @employeeeducation&.university %> </div>
+    </div>
+  </div>
+  <div class="border p-3 mt-4 bg-white">
+    <div><h4 class="page-title">Work Experience</h4></div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6 mb-2 mt-1"> <b> Duration of work : </b> <%= @workexperience&.duration_of_work %> </div>
+      <div class="col-md-6 mb-2 mt-1"> <b> Previous designations : </b> <%= @workexperience&.role %> </div>
+      <div class="col-md-12 mb-2 mt-1"> <b> Technologies known : </b> <%= @user_tech&.map {|t| t.technology.name}.join(', ') %> </div>
+    </div>
+  </div>
+</div>

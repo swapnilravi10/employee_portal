@@ -1,0 +1,21 @@
+version: "3.3"
+services: 
+  postgres_local:
+      image: postgres
+      container_name: postgres_local
+      ports: 
+        - 5432:5432
+      volumes: 
+        - ../pg_local_data/db:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=employee_portal
+        - POSTGRES_USER=rubyuser
+        - POSTGRES_PASSWORD=password
+  pg_admin:
+      image: dpage/pgadmin4
+      restart: always
+      environment:
+        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+        PGADMIN_DEFAULT_PASSWORD: root
+      ports:
+        - 5050:80

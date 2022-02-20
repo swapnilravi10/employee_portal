@@ -1,0 +1,183 @@
+
+<style type="text/css">
+.dropdown-item:hover{
+  color:#5ab925;!important;,
+  text-decoration: underline;
+}
+hr.new{
+  border: 1px solid #cccccc;
+  margin-top:7px;
+  margin-bottom:7px;
+}
+</style>
+<div id="main">
+<% @roles = current_user.roles.map{|ur| ur.name} %>
+
+ <%
+=begin%>
+ <%  if current_user.role? :employee 
+      @role_check = 4 
+    elsif current_user.role? :program_manager 
+        @role_check = 3
+    elsif current_user.role? :project_leader
+      @role_check = 2
+    elsif current_user.role? :admin
+      @role_check = 1
+    elsif current_user.role? :superadmin
+      @role_check = 0
+    end %>  
+<%
+=end%>
+<! --- For Superadmins, Admins and Managers -->
+<div id="mySidenav" class="sidenav">
+
+<% if current_user && (@roles.include?("superadmin") || @roles.include?("admin") || @roles.include?("project_leader")|| @roles.include?("program_manager"))%>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <% if !(current_page?(:controller => 'dashboard/admin', :action => 'index'))%>
+  <%= link_to 'Home', :controller => 'dashboard/admin', :action => 'index' %>
+  <% end %>
+  <!-- <a class="dropdown-btn hover_cursor">Administration<i class="fa fa-caret-down"></i></a>
+  <div class="dropdown-container">
+    <%= link_to 'List users',:controller => 'dashboard/admin', :action => 'list' %>
+    <%= link_to 'New user', :controller => 'dashboard/admin', :action => 'new' %>
+  </div> -->
+  <% if @roles.include?("project_leader")%>
+  <% else %>
+  <% end %>
+  <a class="dropdown-btn hover_cursor">Employees<i class="fa fa-caret-down"></i></a>
+    <div class="dropdown-container">
+    <%= link_to 'List employees', :controller => 'dashboard/employee', :action => 'list'%>
+    <%= link_to 'Attendance', :controller => 'dashboard/attendance', :action => 'index'%>
+    </div>
+  <a class="dropdown-btn hover_cursor">Leaves<i class="fa fa-caret-down"></i></a>
+  <div class="dropdown-container">
+    <%= link_to 'My Leaves', :controller => 'dashboard/empleave', :action => 'list'%>
+    <!-- <%= link_to 'New leave', :controller => 'dashboard/empleave', :action => 'new'%> -->
+    <%= link_to 'Leave Requests', :controller => 'dashboard/empleave', :action => 'leavecounters'%>
+  </div>
+  <%= link_to 'Teams', :controller => 'dashboard/team', :action => 'list'%>
+    <!-- <% if @role_check == 2 %> 
+    <% else %>
+      <%= link_to 'New team', :controller => 'dashboard/team', :action => 'new'%>
+    <% end %> -->
+  <%= link_to 'Clients', :controller => 'dashboard/client', :action => 'list'%>
+  <!-- <% if @roles.include?("superadmin") %>
+    <%= link_to 'New client', :controller => 'dashboard/client', :action => 'new'%>
+  <% else %>
+  <% end %> -->
+  <%= link_to 'Projects', :controller => 'dashboard/project', :action => 'list'%>
+  <!-- <%= link_to 'New project', :controller => 'dashboard/project', :action => 'new'%> -->
+  <%= link_to 'Devices', :controller => 'dashboard/device', :action => 'list'%>
+
+  <%= link_to 'Payroll', :controller => 'dashboard/payroll', :action => 'list' %>
+  <% if @roles.include?("superadmin") %>
+    <%= link_to 'Calendar', :controller => 'dashboard/calendar', :action => 'index' %>
+    <%= link_to 'Global setup', :controller => 'dashboard/setup', :action => 'index' %>
+  <% else %>
+  <% end %>
+<% end %>
+<! --- END HERE -->
+
+
+<! --- For Admins -->
+<% if current_user && @roles.include?("admin") && !@roles.include?("superadmin") && !@roles.include?("employee") && !@roles.include?("program_manager") && !@roles.include?("project_leader") %>
+  <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+   <% if !(current_page?(:controller => 'dashboard/admin', :action => 'index'))%>
+    <%= link_to 'Home', :controller => 'dashboard/admin', :action => 'index' %>
+  <% end %>
+  <%= link_to 'Manage documents', {controller:'/dashboard/employee' ,action: 'documents', id:current_user.id}%>
+  <a class="dropdown-btn hover_cursor">Employees<i class="fa fa-caret-down"></i></a>
+    <div class="dropdown-container">
+    <%= link_to 'List employees', :controller => 'dashboard/employee', :action => 'list'%>
+    <%= link_to 'Attendance', :controller => 'dashboard/attendance', :action => 'index'%>
+    </div>
+    <%= link_to 'Leaves', :controller => 'dashboard/empleave', :action => 'list'%>
+    <%= link_to 'Payroll', :controller => 'dashboard/payroll', :action => 'list' %>
+    <%= link_to 'Calendar', :controller => 'dashboard/calendar', :action => 'index' %>
+    <%= link_to 'Global setup', :controller => 'dashboard/setup', :action => 'index' %>
+  </div>
+<% end %>
+<! --- END HERE -->
+
+
+
+<! --- For Program_Manager -->
+<% if current_user && @roles.include?("program_manager") && !@roles.include?("superadmin") && !@roles.include?("admin") && !@roles.include?("project_leader") && !@roles.include?("employee") %>
+  <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+   <% if !(current_page?(:controller => 'dashboard/admin', :action => 'index'))%>
+    <%= link_to 'Home', :controller => 'dashboard/admin', :action => 'index' %>
+  <% end %>
+  <%= link_to 'Manage documents', {controller:'/dashboard/employee' ,action: 'documents', id:current_user.id}%>
+  <a class="dropdown-btn hover_cursor">Leaves<i class="fa fa-caret-down"></i></a>
+  <div class="dropdown-container">
+    <%= link_to 'My Leaves', :controller => 'dashboard/empleave', :action => 'list'%>
+    <!-- <%= link_to 'New leave', :controller => 'dashboard/empleave', :action => 'new'%> -->
+    <%= link_to 'Leave Requests', :controller => 'dashboard/empleave', :action => 'leavecounters'%>
+  </div>
+  <%= link_to 'Attendance', :controller => 'dashboard/attendance', :action => 'index'%>
+  <%= link_to 'Payroll', :controller => 'dashboard/payroll', :action => 'list' %>
+  <%= link_to 'Calendar', :controller => 'dashboard/calendar', :action => 'index' %>
+  </div>
+<% end %>
+<! --- END HERE -->
+
+<! --- For Employees -->
+<% if current_user && (@roles.include?("employee") && !@roles.include?("superadmin") && !@roles.include?("admin") && !@roles.include?("program_manager") && !@roles.include?("project_leader") || @roles.blank?) %>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <!-- <a class="dropdown-btn hover_cursor">Leaves<i class="fa fa-caret-down"></i></a>
+  <div class="dropdown-container">
+    <%= link_to 'Leaves', :controller => 'dashboard/empleave', :action => 'list'%>
+    <%= link_to 'New leave', :controller => 'dashboard/empleave', :action => 'new'%>
+    <%= link_to 'Leave count', :controller => 'dashboard/empleave', :action => 'leavecounters'%>
+  </div>
+  <a class="dropdown-btn hover_cursor">Team<i class="fa fa-caret-down"></i></a>
+  <div class="dropdown-container">
+    <%= link_to 'List teams', :controller => 'dashboard/team', :action => 'list'%>
+  </div>
+  <a class="dropdown-btn hover_cursor">Projects<i class="fa fa-caret-down"></i></a>
+  <div class="dropdown-container">
+  <%= link_to 'List projects', :controller => 'dashboard/project', :action => 'list'%>
+  </div> -->
+  <% if !(current_page?(:controller => 'dashboard/admin', :action => 'index'))%>
+    <%= link_to 'Home', :controller => 'dashboard/admin', :action => 'index' %>
+  <% end %>
+  <%= link_to 'Manage documents', {controller:'/dashboard/employee' ,action: 'documents', id:current_user.id}%>
+  <%= link_to 'Leaves', :controller => 'dashboard/empleave', :action => 'list'%>
+  <%= link_to 'Attendance', :controller => 'dashboard/attendance', :action => 'index'%>
+  <%= link_to 'Payroll', :controller => 'dashboard/payroll', :action => 'list' %> 
+  <%= link_to 'Calendar', :controller => 'dashboard/calendar', :action => 'index' %>
+<% end %>
+</div>
+<! --- END HERE -->
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+    <span style="font-size:25px;cursor:pointer;color:white;" onclick="openNav()">
+      <%= image_tag "sidebar.png", style:'width:30px'%>
+    </span>
+    </li>
+  </ul>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+    <span>
+    <%= image_tag "Anv-logo.png", style:'width:130px; margin-left:30px;'%>
+    </span>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav ml-auto mr-5">
+  <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle logedin-user" href="#" id="navbardrop" data-toggle="dropdown">
+        <span onMouseOver="this.style.color='#5ab925'"
+        onMouseOut="this.style.color='black'" ><%= current_user.first_name %></span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" >
+      <%= link_to "My profile",{:controller=>"dashboard/employee", :action=>"show", :id=>current_user.id},{:class=>'dropdown-item'} %>
+        
+        <hr class="new">
+        <%= link_to "Log out",{:controller=>"/login", :action=>"logout_user"},{:class=>'dropdown-item'} %> 
+      </div>
+    </li>
+  </ul>
+</nav>

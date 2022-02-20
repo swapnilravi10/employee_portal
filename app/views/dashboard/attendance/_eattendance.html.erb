@@ -1,0 +1,40 @@
+<table id="tableList" class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th style="width:30%;">Email</th>
+      <th>Phone number</th>
+      <th><input class="form-control" type="text" id="searchInput" placeholder="Search.."></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="tableData">
+    <% @employees.each do |e| %>
+      <tr>
+        <td><%= e.first_name %></td>
+        <td><%= e.last_name %></td>
+        <td><%= e.email %></td>
+        <td><%= e.phone_number %></td> 
+        <td style="padding-left:5%;">
+        <%= link_to image_tag('edit_icon.png', :class => "mr-4"),{action: 'edit', id:e.id} %>
+        <%= link_to employee_path(e), method: :delete, data: {confirm: 'Are you sure?'} do %>
+          <%= image_tag('delete_icon.png') %>
+        <% end %>
+        </td>
+        <td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  <div class="row">
+  <% if @page != 0 %>
+     <%= link_to "< Previous",{action: 'list', page:@page-1}, remote: true, id: 'prev-page'%>
+     <% elsif @next_flag && @page + 1 == @last_page  %>
+     <%= link_to "Next >",{action: 'list', page:@page+1},class:"next", remote: true, id: 'next-page'%>
+     <% end %>
+  </div>
+</table>
+
+   
+   

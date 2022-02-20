@@ -1,0 +1,86 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<style>
+td div {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+}
+</style>
+<div class="container mb-5 pl-5 pr-5">
+<%= render "shared_admin/flash" %>
+<% if @emp_leaves.blank? %>
+    <h2 class="text-center mt-5">No leave requests found for this employee</h2>
+    <p class="text-center mt-4">Click on Actions -> Leaves -> New to add new leaves</p>
+<% else %>
+  <h2 class="page-title">Leave requests</h2>
+  <p></p>            
+  <table class="table table-hover table-striped mt-5">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th><input class="form-control" style="font-size: 10px !important" type="text" id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+  <tbody id="tableData">
+  <% @emp_leaves.each do |c| %>
+    <tr>
+      <% @emp = User.find_by(:id => c[0].requestee_id)
+      if @emp.blank? %>
+        <td>-</td>
+      <% else %>
+        <td><%= @emp.full_name %></td>
+      <% end %>
+        <td> <div> <%= c[0].description  -%> </div></td>
+      <td>
+        <% c.each do |leave| %>
+          <a class="dropdown-item pl-0"><%= Date.parse(leave.start_time.to_s).strftime("%d-%m-%Y") %> <%= leave.half_day == true ? " (half day)" : "" %></a>
+        <% end %>
+      </td>
+      <td>
+        <% if c[0].rejection_date.blank? && c[0].approval_date.blank? && c[0].cancelled == false %>
+          Pending
+        <% else %>
+          <% if c[0].cancelled == true %>
+            Cancelled by requestee
+          <% elsif c[0].approval_date.present? %>
+            Approved on <%= Date.parse(c[0].approval_date.to_s).strftime("%d-%m-%Y") -%>
+          <% elsif c[0].rejection_date.present? %>
+            Rejected on <%= Date.parse(c[0].rejection_date.to_s).strftime("%d-%m-%Y") -%>
+          <% elsif c[0].notified == true %>
+            Notified to manager
+          <% end %>
+        <% end %>
+      </td>
+      <td style="padding-left:5%">
+        <% if c[0].start_time <= DateTime.now %>
+          <b>Leave is taken</b>
+        <% else %>
+          <% if current_user.role? :superadmin or c[0].requestee_id == current_user.id%>
+          <%= link_to image_tag('edit_icon.png', :class => "mr-4", :title => "Edit"),{action: 'edit', id:c[0].id} if c[0].start_time >= DateTime.now %>
+          <% end %>
+          <% if c[0].requestee_id != current_user.id %>
+            <%= link_to image_tag('icon_approved.svg', :class => "mr-4", :title => "Approve", :width => "25px"), url_for(action: :approve,id: c[0].id),method: :post, title: 'Approve leave', 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Approve leave?"} if c[0].approved != true && c[0].rejection_date.blank? && c[0].notified == true %>
+          <%= link_to image_tag('icon_rejected.svg', :class => "mr-4", :title => "Reject", :width => "25px"), url_for(action: :destroy,id: c[0].id),method: :delete, title: 'Reject leave', 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Reject leave?"} if c[0].approved != true && c[0].rejection_date.blank? && c[0].notified == true %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+    
+  </table>
+</div>
+<% end %>
+</div>
+</body>
+</html>

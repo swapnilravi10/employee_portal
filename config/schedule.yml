@@ -1,0 +1,9 @@
+event_greeting_job:
+  cron: "9 * * * *" #it will retrieve data at 9 am
+  class: "EventGreetingWorker"
+archive_user:
+  cron: "0 */4 * * *" 
+  class: "ArchiveUser"
+logout_user :
+  cron: "0 23 * * *"
+  class: "LogoutUserWorker"

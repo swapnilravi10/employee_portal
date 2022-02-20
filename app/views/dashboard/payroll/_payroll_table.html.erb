@@ -1,0 +1,49 @@
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+    .add-employee-btn{
+      background-color: #c2ea7a;
+      border: 0px;
+      border-radius: 25px;
+      color: #333333!important;
+   }
+}
+</style>
+
+<div class="container mb-5 pl-5 pr-5" id="main_container">
+<% if @employees.blank? %>
+    <h2 class="text-center mt-5">No employees yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Employees -> New to add new employees</p>
+<% else %>
+  <h2 class="page-title">Manage Employee Payroll</h2>
+ 
+
+<table id="tableList" class="table table-hover table-striped mt-5">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th style="width:30%;">Email</th>
+        <th>Phone number</th>
+        <th style="width:18%;"><input class="form-control" style="font-size:12px;" type="text" id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% @employees.each do |e| %>
+      <tr>
+        <td><%= e.first_name -%></td>
+        <td><%= e.last_name -%></td>
+        <td><%= e.email -%></td>
+        <td><%= e.phone_number -%></td> 
+        <td style="text-align:center;">
+        <%= link_to image_tag('payroll.png', :class => "mr-4",:title => "Payroll"),{action: 'edit', id:e.id}%>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+    <%= paginate @employees ,remote: true %>
+</div>
+<% end %>

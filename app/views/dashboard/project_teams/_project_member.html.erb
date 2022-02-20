@@ -1,0 +1,31 @@
+<div class="container-member">
+  <div class="row border pt-3 mb-4">
+    <input type="hidden" value=<%= params[:id] %> name="project_team[project_id][]">
+    <div class="col-md-6 form-group">
+      <label for="user_id">Team member</label>
+      <select class="form-control new-search" name="project_team[user_id][]" required>
+        <option value="" selected disabled>Please select</option>
+        <% @users.each do |user| %>
+          <option value="<%= user.id %>"><%= user.full_name %></option>
+        <% end %>
+      </select>
+    </div>
+    <div class="col-md-5 form-group">
+      <label for="project_team[designation]">Project role</label>
+      <select class="form-control new-search" name="project_team[designation][]" required>
+        <option value="Member">Member</option>
+        <option value="Team lead">Team lead</option>
+      </select>
+    </div>
+    <button class="btn btn-danger my-4" type="button" onclick="$(this).parent('div').remove();" width="100%">X</button>
+    <div class="col-md-12 form-group">
+      <label for="project_profile">Project profile</label>
+      <textarea name="project_team[project_profile][]" class="form-control" placeholder="Project profile" required></textarea>
+    </div>
+  <div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('.new-search').select2()
+  })
+</script>

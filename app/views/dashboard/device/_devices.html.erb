@@ -1,0 +1,93 @@
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+    .add-employee-btn{
+      background-color: #c2ea7a;
+      border: 0px;
+      border-radius: 25px;
+      color: #333333!important;
+      margin-top:10px;  
+   }
+}
+</style>
+<% if @devices.blank? %>
+    <h2 class="text-center mt-5">No devices yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Devices -> New to add new devices</p>
+<% else %>
+  <h2 class="page-title">Devices</h2>
+
+ <table  id="tableList" class="table table-hover table-striped mt-5">
+    <thead>
+      <tr>
+        <th>Device Id</th>
+        <th>Device name</th>
+        <th>Device type</th>
+        <th>Description</th>
+        <th>Assigned to</th>
+        <th style="width:18%;"><input class="form-control" style="font-size:12px;" type="text" id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% @devices.each do |d| %>
+      <tr>
+        <td><%= d.device_type.device_type.downcase + d.id.to_s -%></td>
+        <td><%= d.name -%></td>
+        <td><%= d.device_type.device_type -%></td>
+        <td><%= d.description -%></td>
+        <% if d.assigned_to.blank? %>
+          <td><%= "-" %></td>
+        <% else %>
+          <td><%= link_to User.find(d.assigned_to).full_name ,{action: 'public_profile', controller: 'admin', id:User.find(d.assigned_to).id},style:"color: #374891;
+          text-decoration: underline;"%></td>
+        <% end %>    
+        <td style="text-align:center;">
+        <%= link_to image_tag('edit_icon.png', :class => "mr-4", :title => "Edit") ,{action: 'edit', id:d.id}%>
+       
+        <% if d.assigned_to.blank? %>
+            <span data-toggle="modal" data-target="#assign_modal" class="assign-device" id="<%= 'device-'.concat(d.id.to_s) %>"><%= image_tag('new-user.png', :title => "Assign",size: "20x20" ,:class => "mr-4") %></span> 
+            <%# link_to image_tag('new-user.png', :title => "assign",size: "20x20" ,:class => "mr-4", :data-toggle => "modal", :data-target => "#assign_modal")%>
+          <% else %>
+            <%= link_to image_tag('user-minus-solid.png', :title => "Unassign",size: "20x20" ,:class => "mr-4"),{action: 'unassign_device', id:d.id} %>
+             <% end %>
+            <%= link_to  d, method: :delete, data: {confirm: 'Are you sure?'} do %>
+              <%= image_tag('delete_icon.png', :class => "mr-4", :title => "Delete") %>
+            <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+    <%= paginate @devices ,remote: true %>
+  </div>
+<% end %>
+
+<div class="modal fade" id="assign_modal">
+  <%= form_tag :controller=>"dashboard/device", :action => 'assign_device', :remote => false do %>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Assign User</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input type="hidden" id="device_id" name="device_id">
+            <%= collection_select(:device, :assigned_to, @users, :id, :full_name, {prompt: true}, {class: 'form-control assign-select'}) %>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Assign</button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<script>
+  $(".assign-device").click(function() {
+    $('#device_id').val(this.id.split("-")[this.id.split("-").length - 1])
+  })
+</script>
+

@@ -1,0 +1,36 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+    .add-employee-btn{
+      background-color: #c2ea7a;
+      border: 0px;
+      border-radius: 25px;
+      color: #333333!important;
+   }
+}
+</style>
+<div class="container mb-5 pr-5 pl-5" id="main_container">
+<%= link_to 'Add Employee' , new_dashboard_employee_path, :action=> 'new', :class=> 'float-right mt-2 btn btn-primary add-employee-btn' %>
+ <%=render "employees"%>
+</div>
+
+<!-- Modal for employee detail -->
+<div id="employee-modal-window" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+
+<script>
+$('#deactivateModalCenter').on('show.bs.modal', function (event) {
+  let userId = $(event.relatedTarget).data('userid') 
+  $(this).find('.modal-body input').val(userId)
+ })
+</script>
+
+

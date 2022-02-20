@@ -1,0 +1,14 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<%= month_calendar(events: @events)do |date, events| %>
+  <%= date.day %>
+
+  <% events.each do |event| %>
+    <div>
+      <%= event.event_name %>
+      <% if event.holiday %>
+        -(holiday)
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

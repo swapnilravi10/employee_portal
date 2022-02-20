@@ -1,0 +1,8 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+ <%= render "shared_admin/flash" %>         
+<div class="container mb-5 pl-5 pr-5" id="main_container"> 
+<%= link_to 'Add Project' , new_dashboard_project_path, :action=> 'new', :class=> 'float-right btn btn-primary add-employee-btn' %>
+  <%= render 'projects' %>
+</div>
+</div>

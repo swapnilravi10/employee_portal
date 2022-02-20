@@ -1,0 +1,7 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mb-5 pl-5 pr-5">
+<%= link_to 'Add Device' , new_dashboard_device_path, :action=> 'new', :class=> 'float-right btn btn-primary add-employee-btn' %>
+<%= render "shared_admin/flash" %>
+<%= render 'devices' %>
+</div>

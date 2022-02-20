@@ -1,0 +1,75 @@
+
+<% if @teams.blank? %>
+    <h2 class="text-center mt-5">No teams yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Teams -> New to add new teams</p>
+<% else %>
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px!important;
+    }
+    .action-col{
+      width:18%;
+    }
+}
+</style>
+  <h2 class="page-title">Teams</h2>
+  <%= render "shared_admin/flash" %>
+
+ <table id="tableList" class="table table-hover table-striped mt-5">
+    
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Description</th>
+        <th>Project Manager</th>
+        <th class="action-col" style="width:18%;"><input class="form-control" type="text" style="font-size:12px;"  id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% if current_user.role? :superadmin
+        superuser = 1 
+      else 
+        superuser = 0
+      end 
+      is_team_leader = false %>
+    <% @teams.each do |t| %>
+      <tr>
+       <% project_manager = false %>
+        <td><%= t.name -%></td>
+        <td><%= t.description -%></td>
+        <%
+        if !t.project_manager_id.nil?
+           @manager = User.find(t.project_manager_id) 
+           if @manager.blank?
+        %> 
+        <td>-</td>
+         <% else 
+         if @manager.id == current_user.id
+          project_manager = true
+         else
+         end
+         %>
+        <td><%= @manager.full_name %></td>
+        <% end %>
+        <% else %>
+        <td>-</td>
+        <% end %>
+        <td style="text-align:center;">
+        <% if project_manager == true || superuser == 1 %>
+            <%= link_to image_tag('edit_icon.png', :class => "mr-4", :title => "Edit"),{action: 'edit', id:t.id}%>
+            <%= link_to image_tag('add_icon.png',:class=>"mr-4",:title => "Manage members"), {action: 'team_member', team_id:t.id}%>
+            <%= link_to t, method: :delete, data: {confirm: 'Are you sure?'} do %>
+                <%= image_tag('delete_icon.png', :class => "mr-4", :title => "Delete") %>
+            <% end %>
+        <% else %>
+        <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+    
+  </table>
+ <%= paginate @teams ,remote: true %>
+
+<% end %>

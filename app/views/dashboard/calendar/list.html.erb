@@ -1,0 +1,31 @@
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+    .add-employee-btn{
+      background-color: #c2ea7a;
+      border: 0px;
+      border-radius: 25px;
+      color: #333333!important;
+      margin-top:10px;  
+   }
+}
+</style>
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mb-5 pl-5 pr-5">
+<% if @events.blank? %>
+    <h2 class="text-center mt-5">No events yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Calendar -> Add event to add new events</p>
+<% else %>
+  <h2 class="text-center mt-5 page-title">All Events</h2>
+  <%= render "shared_admin/flash" %>
+  <p></p>            
+  <%= render 'events' %>
+  <% if @page != 0 %>
+  <%= link_to "< Previous",{action: 'list', page:@page-1}, remote: true, id: 'prev-page' %>
+  <% end %>
+</div>
+<% end %>
+</div>

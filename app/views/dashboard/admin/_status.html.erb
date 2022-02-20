@@ -1,0 +1,9 @@
+<div style="font-size: 17px;border-top:0px!important;text-align: right" class="pt-2">
+  <% if current_user.status.status == "Available" || current_user.status.status == "In a meeting" || current_user.status.status == "Working remotely"%>
+    <%= image_tag "online.png" %>
+  <% else %>
+    <%= image_tag "offline.png" %>
+  <% end %>
+  <%= current_user.status.status %>
+  <span> <%= render 'status_update' %> </span>
+</div>

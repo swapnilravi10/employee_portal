@@ -1,0 +1,39 @@
+// Place all the styles related to the Calendar controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.has-events {
+    background-color: #FFFFC0;
+}
+
+.wday-0 {
+    background-color:#898989;
+}
+.wday-6 {
+    background-color:#b0b0ab;
+}
+
+.calendar-heading{
+    text-align:center;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.calendar-title{
+    font-size: x-large;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.today {
+    background-color: #ffff7c !important;
+}
+
+input[type="checkbox" i] {
+    background-color: initial;
+    cursor: default;
+    appearance: checkbox;
+    box-sizing: border-box;
+    margin: 3px 3px 3px 4px;
+    padding: initial;
+    border: initial;
+    width: 2%;
+}

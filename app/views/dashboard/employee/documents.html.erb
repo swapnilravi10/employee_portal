@@ -1,0 +1,30 @@
+<%= render "shared_admin/navs" %>
+<% if current_user.role? :superadmin %>
+<%= render "shared_admin/breadcrumbs" %>
+<% end %>
+<h3 class="text-center mt-5 page-title">Upload files for <%= @user.full_name%></h3>
+
+<div class="text-center">
+    <div class="mt-5 col-md-6" style="margin-left: 25%;">
+        <%= form_with :url =>{:action => "upload_document", :id =>@user.id}  do |u| %>
+            <label for="file">File to upload</label> <%= u.file_field "document" %>
+                <%= submit_tag %>
+        <% end %>
+    </div>
+</div>
+ <hr style="width:100%;text-align:left;margin-left:0"> 
+<% if @files[:contents].blank? %>
+    <h3 class="text-center mt-5">No files uploaded</h3>
+<% else %>
+    <h3 class="text-center mt-5 mb-3 page-title">Uploaded files</h3>
+    <table id="tableList" class="table table-hover" style="width:50%; margin-left:25%">
+    <tbody>
+        <% @files[:contents].each do |f| %>
+        <tr>
+            <td><%= f.key.split("/")[1] %></td>
+            <td data-id="<%= f.key %>", class="download-S3File"><a><%= image_tag('download.png', size: "18x18" ,title: "Download") %></a></td>
+            <td data-id="<%= f.key %>", class="view-S3File"><a><%= image_tag('view_file.png', size: "18x18", title: "View") %></a></td>
+            <% if current_user.role? :superadmin %><td data-id="<%= f.key %>", class="delete-S3File"><a><%= image_tag('delete_icon.png') %></a></td><% end %>
+        <% end %>
+    </table>
+<% end %>

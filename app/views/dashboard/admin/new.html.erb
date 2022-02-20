@@ -1,0 +1,57 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5">
+<%= render "shared_admin/flash" %>
+<h2 class="text-center mb-5">New System User</h2>
+<div>
+<%= form_tag :action => 'create' do %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">First name</label>
+      <%= text_field 'user', 'first_name', class: "form-control", placeholder:"First name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Last name</label>
+      <%= text_field 'user', 'last_name', class: "form-control", placeholder:"Last name" %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="role">Role</label>
+      <%= collection_select(:role, :id, @roles, :id, :role_name, {prompt: true}, {class: 'form-control new-role-search'}) %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <%= text_field 'user', 'email', class: "form-control", placeholder:"Email address" %>
+  </div>
+  <div class="form-group">
+    <label for="phone_number">Phone number</label>
+    <%= text_field 'user', 'phone_number', class: "form-control", placeholder:"Phone number" %>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <%= password_field 'user', 'password', class: "form-control", placeholder:"Password" %>
+  </div>
+  <div class="form-group">
+    <label for="password_confirmation">Retype password</label>
+    <%= password_field 'user', 'password_confirmation', class: "form-control", placeholder:"Confirm password" %>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_name">Emergency contact name</label>
+      <input type="text" class="form-control" id="emergency_contact_name">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_number">Emergency contact number</label>
+      <input type="text" class="form-control" id="emergency_contact_number">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Add</button>
+<% end -%>  
+</div>
+<script>
+$(document).ready(function() {
+  $('.new-role-search').select2()
+})
+</script>

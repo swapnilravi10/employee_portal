@@ -1,0 +1,335 @@
+<style>
+    table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+</style>
+<div id="payrollData">
+    <%= form_for @payroll[0], :url =>{:action => "update", :id =>@payroll[0]} do |p| %>
+    <div>
+        <div class="row">
+        <div class="col-md-12">
+            <h2 style="text-align:center">Anveshak Technology and Knowledge Solutions LLP<br>
+            349 Hingne Khurd, Sinhagad Road, Pune, India<br>
+            Salary for the Month of <%= @payroll[0].month.strftime("%B %Y") %></h2>
+        </div>
+        </div>
+        <table style="width:100%; margin-top:5%; height:12%">
+        <tr>
+            <th style="padding-right:4%">
+                Name
+            </th>
+            <th>
+                <%= @employee.full_name %>
+            </th>
+            <th style="padding-right:2%">
+                Date of Joining
+            </th>
+            <th>
+                <%= @employee.date_of_joining.strftime("%d %b %y") %>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Desgination
+            </th>
+            <th>
+                <% if !@designation.blank? %>
+                  <%= @designation.get_designation_name %>
+               <% end %>
+            </th>
+            <th style="padding-left:7%">
+                Days of Pay in the Month
+            </th>
+            <th>
+                <%= @payroll[0].month.end_of_month.day %>
+            </th>
+        </tr>
+        <tr>
+            <th style="padding-left:1%">
+                Bank A/C No
+            </th>
+            <th>
+                <% if !@bankdetail.blank? %>
+                  <%= @bankdetail.account_number %>
+               <% end %>
+            </th>
+            <th style="padding-right:6%">
+                Days Paid
+            </th>
+            <th>
+                <% if !@days_paid.blank? %>
+                  <%= @days_paid %>
+               <% else %>
+                  <%= @payroll[0].month.end_of_month.day %>
+               <% end %>
+            </th>
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th style="padding-left:4%">
+                Vacation Days Taken
+            </th>
+            <th>
+                <%= @vacation_days_taken.count%>
+            </th>
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th style="padding-left:3%">
+                Vacation Days YTD
+            </th>
+            <th>
+                0
+            </th>
+        </tr>
+        <tr>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th style="padding-left:2%">
+                Leave without pay
+            </th>
+            <th>
+                <% if @leave_without_pay.blank? %>
+                  0
+                <% else %>
+                  <%= @leave_without_pay %>
+                <% end %>
+            </th>
+        </tr>
+        </table>
+        <table style="width:100%; margin-top:5%; height:65%">
+        <tr>
+            <th>
+                Earnings
+            </th>
+            <th>
+                Current Month Rs    
+            </th>
+            <th style="padding-top:2%;">
+                <%= @employee.date_of_joining.strftime("%B %Y") %> to Date Rs
+            </th>
+            <th>
+                Deductions
+            </th>
+            <th>
+                Current Month Rs
+            </th>
+            <th style="padding-top:2%;">
+                <%= @employee.date_of_joining.strftime("%B %Y") %> to Date Rs
+            </th>
+        </tr>
+        <tr>
+            <th style="padding-right:2%">
+                Basic
+            </th>
+            <th>
+                <%= p.text_field 'basic_current_month', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+            <th>
+                <%= p.text_field 'basic_to_date',:style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+            <th style="padding-left:1%,text-align:center;">
+                Professional Tax
+            </th>
+            <th>
+                <%= p.text_field 'professional_tax_current_month', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+            <th>
+                <%= p.text_field 'professional_tax_to_date', :style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Dearness Allowance
+            </th>
+            <th>
+                <%= p.text_field 'dearness_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+            <th>
+                <%= p.text_field 'dearness_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+            <th>
+                Income Tax
+            </th>
+            <th>
+                <%= p.text_field 'income_tax_current_month', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+            <th>
+                <%= p.text_field 'income_tax_to_date', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Conveyance Allowance
+            </th>
+            <th>
+                <%= p.text_field 'conveyance_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+            <th>
+                <%= p.text_field 'conveyance_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+            <th>
+                Salary Advance
+            </th>
+            <th>
+                <%= p.text_field 'salary_advance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%>
+            </th>
+            <th>
+                <%= p.text_field 'salary_advance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                House Rent Allowance
+            </th>
+            <th>
+                <%= p.text_field 'house_rent_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'house_rent_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+                Other
+            </th>
+            <th>
+                <%= p.text_field 'other_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'other_to_date', :style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Professional Development Allowance
+            </th>
+            <th>
+                <%= p.text_field 'professional_development_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'professional_development_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Children Education Allowance
+            </th>
+            <th>
+                <%= p.text_field 'children_education_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'children_education_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Telephone Expense Allowance
+            </th>
+            <th>
+                <%= p.text_field 'telephone_expense_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'telephone_expense_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Medical Allowance
+            </th>
+            <th>
+                <%= p.text_field 'medical_allowance_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'medical_allowance_to_date', :style => "border:0; padding-left:30%;  width: 80%" %>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Others
+            </th>
+            <th>
+                <%= p.text_field 'others_current_month', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+                <%= p.text_field 'others_to_date', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Total
+            </th>
+            <th> 
+                <%= p.text_field 'earning_total_current_month', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+                <%= p.text_field 'earning_total_to_date', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                <%= p.text_field 'deduction_total_current_month', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+            <th>
+                <%= p.text_field 'deduction_total_to_date', :style => "border:0; padding-left:30%;  width: 80%" %> 
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Net Current Pay
+            </th>
+            <th>
+                <%= p.text_field 'net_current_pay', :style => "border:0; padding-left:30%;  width: 80%"%> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+        </table>
+    </div>
+    <% end -%>  
+</div>
+

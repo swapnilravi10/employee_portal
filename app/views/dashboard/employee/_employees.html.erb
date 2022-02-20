@@ -1,0 +1,112 @@
+
+   <% if @employees.blank? %>
+   <h2 class="text-center mt-5">No employees yet</h2>
+   <p class="text-center mt-4">Click on Actions -> Employees -> New to add new employees</p>
+   <% else %>
+   <h2 class=" page-title">Employees</h2>
+   <%= render "shared_admin/flash" %>
+   <p></p>
+   
+<table id="tableList" class="table table-hover table-striped mt-5">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th style="width:25%;">Email</th>
+      <th>Phone number</th>
+      <th>Role</th>
+      <th>Designation</th>
+      <th>Status</th>
+      <th style="width:18%;"><input class="form-control" style="font-size:12px;" type="text" id="searchInput" placeholder="Search.."></th>
+      
+    </tr>
+  </thead>
+  <tbody id="tableData">
+   <% if current_user.role? :superadmin  or current_user.role? :admin
+      superuser = true 
+      else 
+      superuser = false 
+      end %>
+    <% @employees.each do |e| %>
+      <tr>
+       <td style="cursor:pointer ">
+        <%= link_to e.full_name,{:controller=>"dashboard/employee", :action=>"show", :id=>e.id}, {:style => "color: #374891;
+        text-decoration: underline;"} %></td>
+        <td data-id="<%= e.id %>",><%= e.email %></td>
+        <td><%= e.phone_number %></td> 
+        <% @roles = Assignment.where(:user_id => e.id) %>
+        <td>
+          <% if @roles.count > 1%>
+            <select style="border: none;background-color: white;">        
+              <% @roles.each do |r| %>
+                <option value="<%= r.role.name%>"><%= r.role.role_name%></option>
+              <% end %>
+            </select> 
+          <% else %>
+            <% @roles.each do |r| %>
+                <%= r.role.role_name%>
+            <% end %>
+          <% end %>
+        </td>
+        <% if e.designation.present? %>
+        <%   @designation = Designation.find(e.designation_id) %>
+        <%   if !@designation.nil? %>
+            <td><%= @designation.get_designation_name %></td> 
+            <% else %>
+            <td> - </td>
+            <% end %>
+          <% else %>
+            <td> - </td> 
+        <% end %>
+        <% if e.archived == true %>
+            <td>Inactive</td>
+        <% elsif e.archived == false %>
+            <td>Active</td>
+        <% else %>
+            <td> - </td>
+        <% end %>
+        <% if superuser == true %>
+        <td style="text-align:center;">
+         <%= link_to image_tag('edit_icon.png'),{action: 'edit', id:e.id}, title: 'Edit',:class => "pr-0" %>
+        <%# link_to employee_path(e), method: :delete, data: {confirm: 'Are you sure?'} do %>
+        <%# image_tag('delete_icon.png') %>&nbsp;&nbsp;
+
+       <!-- <url_for(action: :activate_emp, id: e.id),method: :post> -->
+        <% if e.archived == false %>
+            <% if  !current_user.role? :admin %>
+          <%= link_to image_tag('remove-user.png', width: "20px"), url_for(action: :deactivate, id: e.id),method: :post, title: 'Deactivate employee', 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Deactivate employee?"}, class: "pr-0" %>
+          <%= link_to image_tag('manage_document.png', width: "20px"), url_for(action: 'documents', id: e.id),method: :get, title: 'Manage documents', class: "pr-0 ml-3"%>
+            <% end %>
+        <% else %>
+          <%= link_to image_tag('new-user.png', width: "20px"), url_for(action: :activate_emp, id: e.id),method: :post, title: 'Activate employee', 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Activate employee?"}, class: "pr-0" %> 
+          <%# if e.devices > 0 %>
+          <%# link_to image_tag('device-minus.png' ,:class => "mr-4") ,{action: 'unassign_devices', id:e.id},data: {confirm: 'Do you want to unassign all devices?'}  %>
+          <%# end %>
+        <% end %>
+       <%# link_to 'Deactivate', "#", data: {toggle: "modal", target: "#deactivateModalCenter"}, 'data-userId'=> e.id   %> 
+        <% # link_to "Deactivate", title: 'Deactivate employee',' data-toggle' => 'modal', 'data-target' => '#deactivateModalCenter', 'data-userId'=> e.id  %>
+      
+        </td>
+        <% else %>
+        <% end %>
+        
+      </tr>
+    <% end %>
+  </table>
+    <%= paginate @employees ,remote: true %>
+ 
+</div> 
+<% end %>
+   <%
+=begin%>
+ <% if @page != 0 %>
+     <%= link_to "< Previous",{action: 'list', page:@page-1}, remote: true, id: 'prev-page'%>
+     <% elsif @next_flag && @page + 1 == @last_page  %>
+     <%= link_to "Next >",{action: 'list', page:@page+1},class:"float-right next", remote: true, id: 'next-page'%>
+     <% end %> 
+<%
+=end%>
+
+
+
+   
+   

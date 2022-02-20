@@ -1,0 +1,27 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5">
+<h2 class="text-center mb-5 page-title">Update Event</h2>
+<%= render "shared_admin/flash" %>
+<div>
+<%= form_for @event, :url =>{:action => "update", :id =>@event} do |e| %>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="first_name">Event name</label>
+      <%= e.text_field 'event_name' , class: "form-control", placeholder:"Event name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Event start date</label>
+      <%= e.date_field("start_time", class: "form-control")%>
+    </div>
+  <div class="form-group col-md-6">
+    <label for="email">Event end date</label>
+    <%= e.date_field("end_time", class: "form-control")%>
+  </div>
+  <div class="form-group col-md-12">
+    <label for="phone_number">Holiday</label>
+    <%=  e.check_box("holiday") %>
+  </div>
+  <button type="submit" class="btn btn-primary add-new-emp-btn">Update</button>
+<% end -%>  
+</div>

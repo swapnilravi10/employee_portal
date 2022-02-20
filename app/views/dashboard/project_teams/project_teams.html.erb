@@ -1,0 +1,46 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+  <%= form_tag :action => 'create' do %>
+    <h2 class="text-center mb-5 page-title">Project Team - '<%= @project.name %>'</h2>
+    <div class="container" style="padding-left: 0px !important;padding-right: 0px !important;margin-bottom: 15px !important;">
+      <%= render "shared_admin/flash" %>
+      <% if @project_members.blank? %>
+        <div id="container"><%= render "project_member" %></div>
+      <% end %>
+      <input type="hidden" value=<%= params[:id] %> name="project_team[project_id][]">
+      <div id="project_members_container">
+        <% @project_members.each do |member| %>
+          <div class="container-member">
+            <div class="row border pt-3 mb-4">
+              <div class="col-md-6 form-group">
+                <label for="user_id">Team member</label>
+                <select class="form-control new-search" name="project_team[user_id][]" id="user_id_<% member.id %>" required>
+                  <option value="" selected disabled>Please select</option>
+                  <% @users.each do |user| %>
+                    <option value="<%= user.id %>" <%= member.user_id.to_s == user.id.to_s ? "selected" : "" %> ><%= user.full_name %></option>
+                  <% end %>
+                </select>
+              </div>
+              <div class="col-md-5 form-group">
+                <label for="project_team[designation]">Project role</label>
+                <select class="form-control new-search" name="project_team[designation][]" id="designation_<% member.id %>" required>
+                  <option value="Member" <%= member.designation == "Member" ? "selected" : "" %> >Member</option>
+                  <option value="Team lead" <%= member.designation == "Team lead" ? "selected" : "" %> >Team lead</option>
+                </select>
+              </div>
+              <button class="btn btn-danger my-4" type="button" onclick="$(this).parent('div').remove();" width="100%">X</button>
+              <div class="col-md-12 form-group">
+                <label for="project_profile">Project profile</label>
+                <textarea name="project_team[project_profile][]" class="form-control" placeholder="Project profile" required><%= member.project_profile %>
+                </textarea>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary add-employee-btn">Submit changes</button>
+    <%= link_to "Add new member", dashboard_add_member_path, :class => "btn btn-info add-employee-btn", :style => "float: right;", remote: true %>
+  <% end %>
+</div>

@@ -1,0 +1,53 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<h2 class="text-center page-title">Add Team members</h2>
+<%= render "shared_admin/flash" %>
+<div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Team</label>
+      <%= text_field_tag 'team' , @team, class: "form-control", disabled: true %>
+    </div>
+  </div>
+  <%= form_tag :action => 'add_members' do %>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="first_name">Team members</label>
+        <%= collection_select(:team_member, :user_id, @users, :id, :full_name, {prompt: true}, {class: 'form-control team-members-search', :multiple=>true}) %>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary add-new-emp-btn">Add</button>
+  <% end -%> 
+  <div>
+  <hr>
+  <% if !@team_members.blank? %>
+  <h2 class="text-center mt-5 page-title">Team Members</h2>
+  <p></p>            
+  <table class="table table-hover table-striped mt-4">
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @team_members.each do |tm| %>
+      <tr>
+        <td><%= tm.user.first_name%></td>
+        <td><%= tm.user.last_name %></td>
+        <td><%= tm.user.email%></td>
+        <td>
+        <%= link_to dashboard_team_delete_member_path(:id=> tm.user_id), method: :delete ,data: {confirm: 'Are you sure?'} do%>
+          <%= image_tag('delete_icon.png', :class => "mr-4", :title => "delete") %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+  </div>
+</div>

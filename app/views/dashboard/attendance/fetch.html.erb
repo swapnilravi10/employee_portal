@@ -1,0 +1,37 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<h2 class="text-center mb-5 page-title">Attendance Management</h2>
+<%= render "shared_admin/flash" %>
+
+<div>
+<%= form_tag :action => 'index' do %>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="employee">Select Employee</label>
+        <%= collection_select(:attendance, :user_id, @users, :id, :full_email_name, {prompt: true}, {class: 'form-control', required: true}) %>
+    </div>
+   <!-- <%# if !@years.nil? %>
+        <div class="form-group col-md-6">
+            <label for="employee">Select Year</label>
+            <%# collection_select(:attendance, :year, @years, :to_s, :to_s, {prompt: true}, {class: 'form-control new-year-search', required: true}) %>
+        </div>
+    <%# else %>
+        <div class="form-group col-md-6">
+            <b>No attendance records</b>
+        </div>
+    <%# end %> -->
+  </div>
+  <button type="submit" class="btn btn-primary add-employee-btn">Proceed</button>
+<% end -%>  
+</div>
+<script>
+// $(document).ready(function() {
+//   $('.new-user-search').select2()
+// })
+// $(document).ready(function() {
+//   $('.new-year-search').select2()
+// })
+</script>
+</body>
+</html>

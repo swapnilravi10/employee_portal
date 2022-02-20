@@ -1,0 +1,27 @@
+<div id="status-update">
+  <% if @all_employees.blank? %>
+   <h2 class="text-center mt-5">No employees yet</h2>
+   <p class="text-center mt-4">Click on Actions -> employees -> New to add new employees</p>
+  <% else %>
+    <div>
+      <% @all_employees.each do |e| %>
+        <div data-id="<%= e.id %>" style="font-size: 18px; border-top:none;">
+          <a href='/dashboard/admin/public_profile/<%=e.id%>' style="color: #374891;
+          text-decoration: underline;">
+            <% if e.logged_in && e.status.present? && e.status.status == "Available" || e.status.status == "In a meeting" || e.status.status == "Working remotely"%>
+              <%= image_tag "online.png" %>
+            <% else %>
+              <%= image_tag "offline.png" %>
+            <% end %>
+            <%= e.full_name %>
+          </a>
+          <% if e.status.present? && e.status.status != "Available" %>
+            <span class="status-label">
+              <%= e.status.status %>
+            </span>
+          <% end %>
+        </div>
+      <% end %> 
+    </div>
+  <% end %>
+</div>

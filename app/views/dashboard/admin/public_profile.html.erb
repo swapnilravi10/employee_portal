@@ -1,0 +1,255 @@
+<%= render "shared_admin/navs" %>
+<div id="main" class="container mb-5">
+   <%= render "shared_admin/flash"%>
+</div>
+<div class="container" style="margin-top: 30px;">
+   <div class="row">
+      <div class="col-md-3">
+        <% if @user.id == current_user.id %>
+            <a href="#" aria-label="Change Profile Picture" data-toggle="modal" data-target="#profile_picture_modal">
+                <% if current_user.avatar.attached? %>
+                    <div class="profile-pic" style="margin: 0px auto;background-image: url(<%= rails_blob_url(current_user.avatar) %>); width:180px;height:180px;">
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                    </div>
+                <% else %>
+                    <div class="profile-pic" style="margin: 0px auto;background-image: url(/assets/profilepicturelogo.jpg); width:180px;height:180px; border-radius:8px; background-size:cover;border: 1px solid #eaeaea;" >
+                        <span class="glyphicon glyphicon-camera"></span>
+                        <span>Change Image</span>
+                    </div>
+                <% end %>
+            </a>
+        <% else %>
+            <% if @user.avatar.attached? %>
+                <div class="profile-pic" style="margin: 0px auto;background-image: url(<%= rails_blob_url(@user.avatar) %>); width:180px;height:180px;">
+                </div>
+            <% else %>
+                <div class="profile-pic" style="margin: 0px auto;background-image: url(/assets/profilepicturelogo.jpg); width:180px;height:180px;">
+                </div>
+            <% end %>
+        <% end %> 
+         <div class="mt-1">
+            <% if !@user_status.blank? %>
+            <input style="background-color: #c2ea7a;", type="text", name="userstatus", value="Status: <%= @user_status.status.status %>" disabled=true>
+            <% else %>
+            <input style="background-color: #c2ea7a;", type="text", name="userstatus", value="Status: Unavailable" disabled=true>
+            <% end %>
+         </div>
+         <div class="container mt-1 pt-3 pb-3" style="background-color:#f4f4f4;">
+            <div><h6><b>Team</b></h6></div>
+            <% @team = TeamMember.find_by(user_id: @user.id)&.team %>
+            <div>
+               <%= @team&.name%>
+            </div>
+            <hr>
+            <div><h6><b>Reports to</b></h6></div>
+            <div>
+               <%= User.find_by(id: @team&.project_manager_id)&.full_name %>
+            </div>
+            <hr>
+            <div><h6><b>Projects</b></h6></div>
+            <% ProjectTeam.where(user: @user).each do |project_team| %>
+               <li><%= project_team.project.name %></li>
+            <% end %>
+            <hr>
+         </div>
+      </div>
+      <div class="col-md-9">
+      <div class="col-md-12 shadow">
+         <div class="row employee-header-section pl-2 mb-4">
+            <div class="col-md-12 mb-1">
+               <% if !@user.designation.blank? %>
+               <h5 style="color:#364692;"><%= @user.designation.get_designation_name%></h5>
+               <% end %>
+            </div>
+            <div class="col-md-6">
+               <h3><%= @user.full_name%></h3>
+            </div>
+         </div>
+         <% if @user.id == current_user.id %>
+            <div class="text-center">
+                <button class="post-box open-Public-ProfilePostBox" name="post" value="Start a post" data-id="<%= current_user.id %>">
+                    <span class="button-text">Start a post</span>
+                </button>
+            </div>
+            <hr>
+         <% end %>
+         <div class="container my-custom-scrollbar">
+            <% if !@posts.blank? %>
+            <% @posts.each do |p|%>
+            <div class="row mb-2">
+               <div class="col-md-1">
+                  <% if p.user.avatar.attached? %>
+                  <div class="pp" style="background-image: url(<%= rails_blob_url(p.user.avatar) %>)";></div>
+                  <% else %>
+                  <div class="pp" style="background-image: url(/assets/profilepicturelogo.jpg)";  ></div>
+                  <% end %>
+               </div>
+               <div class="col-md-6">
+               <a href='/dashboard/admin/public_profile/<%=p.user_id%>'>
+                  <p class="user-post-name">
+                     <%= p.user.full_name %> 
+                  </p>
+               </a>
+               <p class="user-post-posted-on">Posted on <%= p.created_at.strftime("%Y-%m-%d") %></p>
+              </div> 
+               <div class="col-md-5 delete-post dropdown text-right">
+                  <% if p.user_id == current_user.id %>
+                  <%= image_tag 'menu.png', :size=>'15x15', :class=>"post-Menu dropdown-toggle mr-3", :style=> "cursor:pointer", :data=>{:post => p.id}%>
+                  <div id="postMenuDropDwn-<%=p.id%>" class="dropdown-postMenu ml-3">
+                     <!-- Edit option here if required -->
+                     <!-- link_to "Edit", edit_dashboard_post_path(p), :remote=> true -->
+                     <%= link_to "Delete", post_path(p), method: :delete, data: {confirm: 'Are you sure?'}%>
+                  </div>
+                  <% end %>
+               </div>
+            </div>
+            <div>
+               
+               <div class="row">
+                  <div class="col-md-12 mb-2">
+                     <%= p.post %>
+                  </div>
+                   <!-- Post image -->
+            <div id="carouselExampleIndicators_<%= p.id %>" class="carousel slide full-width" data-ride="carousel">
+              <% @post_attachments = PostAttachment.where(:post_id => p.id)%>
+              <ol class="carousel-indicators">
+                <% @post_attachments.each_with_index do |pa, index|%>
+                  <li data-target="#carouselExampleIndicators_<%= p.id %>" data-slide-to="<%= index %>" class=<%= index == 0 ? "active" : "" %> ></li>
+                <% end %>
+              </ol>
+              <div class="carousel-inner full-width">
+                <% if @post_attachments.present? %>
+                  <% @post_attachments.each_with_index do |pa, index|%>
+                    <div class="carousel-item full-width<%= index == 0 ? " active" : "" %>">
+                      <img class="d-block full-width" src="<%= pa.post_image_url %>" alt="Image">
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators_<%= p.id %>" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators_<%= p.id %>" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            <!-- Post image -->
+               </div>
+            </div>
+            
+            <div class="comment-box mt-3">
+               <div class="row mt-2">
+                  <div class="col-md-4">
+                     <% @liked = PostLike.find_by(:post_id=> p.id, :user_id=> @user.id)%>
+                     <% if !@liked.blank?%>
+                     <%= image_tag "thumb-up.png", :size=> "25x25", :class=>"ml-2 post-Liked", :style=>"cursor:pointer", :data=>{:user => @user.id, :post => p.id}%>
+                     <%= p.like %>
+                     <% else %>
+                     <%= image_tag "like.png", :size=> "25x25", :class=>"ml-2 post-Liked", :style=>"cursor:pointer", :data=>{:user => @user.id, :post => p.id}%>
+                     <% if p.like != 0%>
+                     <%= p.like %>
+                     <% end %>
+                     <% end %>
+                     <%= image_tag "comment.png", :size=> "25x25", :class=>"ml-2 comment-icon",:style=>"cursor:pointer", :data=>{:post => p.id} %>
+                     <% comment = Comment.where(:post_id=> p.id)%>
+                     <% if comment.count() > 0 %>
+                     <%= comment.count()%>
+                     <% end %>
+                  </div>
+               </div>
+               <hr>
+               <div  id="comment-div-<%= p.id %>" style="display:none;">
+                  <div>
+                     <%= form_tag :controller=>"dashboard/post", :action => 'new_comment' do %>
+                     <div class="row container">
+                        <div class="col-md-10">
+                           <%= text_field 'comment', 'comment',:class=>"form-control mb-3", :placeholder=>"Comment..."%>
+                           <input type="hidden" id="comment_post_id" name="comment[post_id]" value="<%= p.id %>">
+                           <input type="hidden" id="comment_user_id" name="comment[user_id]" value="<%= @user.id %>">
+                        </div>
+                        <div class="col-md-2">
+                        <button type="submit" class=" btn btn-primary comment-btn">Comment</button>
+                        </div>
+                     </div>
+                     <% end %>
+                  </div>
+                  <% @comments = Comment.where(:post_id => p.id).order("created_at DESC")%>
+                  <% if !@comments.blank?%>
+                  <% @comments.each do |c| %>
+                  <hr>
+                  <div class="row container">
+                     <div class="ml-2">
+                        <% if c.user.avatar.attached? %>
+                        <div class="cp" style="background-image: url(<%= rails_blob_url(c.user.avatar) %>)";></div>
+                        <% else %>
+                        <div class="cp" style="background-image: url(/assets/profilepicturelogo.jpg)";  ></div>
+                        <% end %>
+                     </div>
+                     <div>
+                     <a href='/dashboard/admin/public_profile/<%=c.user_id%>'>
+                        <p style="font-size: medium;color:#222222; margin-left:15px;">
+                           <%= c.user.full_name %>
+                        </p>
+                     </a>
+                     <p style="font-size: 12px;color:#666666; margin-top:-15px!important; margin-left:15px;">Commented on <%= c.created_at.strftime("%Y-%m-%d")%></p>
+                     </div>
+                     <div class="col-md-12 d-flex">
+                     <div class="col-md-10 mb-2">
+                     <input type="text" style="border:0px;"  id="comment_comment" name="comment[comment]" value="<%=c.comment%>" disabled=true>
+                     </div>
+                     <div class="ml-5 col-md-2">
+                     <% if c.user_id == @user.id %>
+                     <%= link_to comment_path(c), method: :delete, :class=>'delete-comment', data: {confirm: 'Are you sure?'} do %>
+                     <%= image_tag 'delete_icon.png'%>
+                     <% end %>
+                     <% end %>
+                     </div>
+                    
+                  </div>
+                  <% end %>
+                  <% end %>
+               </div>
+            </div>
+            <hr>
+            <% end %>
+            <% else %>
+            <div style="text-align:center;">
+            <%= image_tag "No-data.png", :style=> "width:100px" %>
+            <p class="no-post"> No posts yet </p>
+          </div>
+            <% end %>
+         </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div id="new-post-window" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content"></div>
+   </div>
+</div>
+<div class="modal fade" id="profile_picture_modal">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal Header -->
+         <div class="modal-header ">
+            <h4 class="modal-title">Profile picture</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <!-- Modal body -->
+         <div class="modal-body">
+            <%= form_with :url =>{:action => "update_photo", :id =>current_user} do  |f| %>
+            <label for="file">File to Upload</label> <%= f.file_field "avatar" %>
+            <%= submit_tag %>
+            <% end %>
+         </div>
+         <!-- Modal footer -->
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>

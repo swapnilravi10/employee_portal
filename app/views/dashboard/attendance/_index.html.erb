@@ -1,0 +1,17 @@
+<div id="index-calendar">
+  <%= render "shared_admin/navs" %>
+  <%= render "shared_admin/breadcrumbs" %>
+
+  <%= month_calendar(events: @leaves) do |date, events| %>
+    <%= date.day %>
+    <% events.each do |event| %>
+        <div>
+          <% if event.wfh %>
+            <%= image_tag "home.png", :size=>'15x15' %>
+          <% end %>
+          <% user = User.find(event.requestee.id )%>
+          <%= user.full_name%> - <%=  event.description  %>
+        </div>
+      <% end %>
+    <% end %>
+</div>

@@ -1,0 +1,19 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<%= render "shared_admin/flash" %>
+<h2 class="page-title">Global Setup</h2>
+<div class="container mb-5 p-0 mt-5">
+  <%= form_for @designation, :url =>{:action => "update_designation", :id =>@designation} do |t| %>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+          <label for="designation">Designation</label>
+          <%= text_field 'designation', 'name', class: "form-control",  placeholder:"eg: application_tester" , style: "width: 50% !important;"%>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary add-employee-btn">Update</button>
+  <% end -%>  
+</div>
+</body>
+</html>

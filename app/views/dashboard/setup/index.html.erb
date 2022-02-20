@@ -1,0 +1,116 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mb-5 pl-5 pr-5">
+   <%= render "shared_admin/flash" %>
+   <h2 class="page-title">Global Setup</h2>
+   <div class="container mb-5 mt-5 p-0">
+      <%  @setup = Setup.first %>
+      <%= form_for @setup, :url =>{:action => "update", :id =>@setup} do |t| %>
+      <div class="form-row">
+         <div class="form-group col-md-4">
+            <label for="yearly_leaves">
+               <h6>Yearly leaves</h6>
+            </label>
+            <%= text_field 'setup', 'yearly_leaves', class: "form-control", style: "width: 50% !important;" %>
+         </div>
+      </div>
+      <button type="submit" class="btn btn-primary add-employee-btn">Update</button>
+      <% end -%>  
+      <hr>
+      <div class="form-row mt-4">
+         <div class="form-group col-md-4">
+         <h4 class="page-title text-left"> Designations</h4>
+         </div>
+         <div class="form-group col-md-4">
+            
+         </div>
+         <div class="form-group col-md-4">
+            <%= link_to "Create new designation", {action: 'new_designation'}, class: " float-right btn btn-primary add-employee-btn"%>
+         </div>
+      </div>
+      <% if @designations.blank? %>
+      <table class="table table-hover table-striped mt-4">
+         <thead>
+            <tr>
+               <th>Designations</th>
+            </tr>
+         </thead>
+         <tbody id="tableData">
+            <tr>
+               <td>No data</td>
+            </tr>
+         </tbody>
+      </table>
+      <% else %>     
+      <table class="table table-hover table-striped  mt-4">
+         <thead>
+            <tr>
+               <th>Designation</th>
+               <th>Actions</th>
+            </tr>
+         </thead>
+         <tbody id="tableData">
+            <% @designations.each do |c| %>
+            <tr>
+               <td><%= c.name.to_s.split('_').join(' ').titleize -%></td>
+               <td>
+                  <%= link_to image_tag('edit_icon.png', :class => "mr-4", :title => "Edit"),{action: 'edit_designation', id:c.id} %>
+                  <%= link_to image_tag('delete_icon.png', :class => "mr-4", :title => "Delete"), url_for(action: :delete_designation, id: c.id),method: :delete, title: 'Delete designation', 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Delete designation?"} %> 
+               </td>
+            </tr>
+            <% end %>
+         </tbody>
+      </table>
+   </div>
+   <% end %>
+   <hr>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+      <h4 class="page-title text-left"> Device Types</h4>
+      </div>
+      <div class="form-group col-md-4">
+       
+      </div>
+      <div class="form-group col-md-4">
+        <%= link_to "Add new device type", {action: 'new_device_type'}, class: " float-right btn btn-primary add-employee-btn"%>
+      </div>
+      <% if @device_type.blank? %>
+      <table class="table table-hover table-striped mt-4">
+         <thead >
+            <tr>
+               <th>Device Type</th>
+            </tr>
+         </thead>
+         <tbody id="tableData">
+            <tr>
+               <td>No data</td>
+            </tr>
+         </tbody>
+      </table>
+      <% else %>     
+      <table class="table table-hover table-striped  mt-4">
+         <thead>
+            <tr>
+               <th>Device Type</th>
+               <th>Actions</th>
+            </tr>
+         </thead>
+         <tbody id="tableData">
+            <% @device_type.each do |dt| %>
+            <tr>
+               <td><%= dt.device_type %></td>
+               <td>
+                  <%= link_to image_tag('edit_icon.png', :class => "mr-4", :title => "Edit"),{action: 'edit_device_type', id:dt.id} %>
+                  <%= link_to image_tag('delete_icon.png', :class => "mr-4", :title => "Delete"), url_for(action: :delete_device_type, id: dt.id),method: :delete, title: 'Delete designation', 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Delete designation?"} %> 
+               </td>
+            </tr>
+            <% end %>
+         </tbody>
+      </table>
+   </div>
+   <% end %>
+    </div>
+</div>
+</body>
+</html>
+

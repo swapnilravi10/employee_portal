@@ -1,0 +1,8 @@
+$("#tableList").html("<%= escape_javascript(render("employees")) %>");
+if (<%= @page %> == <%= @last_page%>)
+  {
+    document.getElementById("next-page").style.display = "none";
+  }
+else{
+  document.getElementById("next-page").style.display = "block";
+}

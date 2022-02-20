@@ -1,0 +1,22 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<h2 class="text-center mb-5 page-title">New Leave</h2>
+<%= render "shared_admin/flash" %>
+
+<div>
+  <%= form_tag :action => 'create' do %>
+    <div class="container" style="padding-left: 0px !important;padding-right: 0px !important;margin-bottom: 15px !important;">
+      <div id="leave_container"><%= render "newleave" %></div>
+      <div id="new_container"></div>
+      <input type="hidden" name="requestee_id" value=<% current_user.id %>>
+    </div>
+    <button type="submit" class="btn btn-primary add-employee-btn">Create leave request</button>
+    <%= link_to "Add new leave", dashboard_dynamic_add_leave_path, :class => "btn btn-info add-employee-btn", :style => "float: right;", remote: true %>
+  <% end -%>  
+</div>
+<script>
+  $(document).ready(function() {
+    $('.new-user-search').select2()
+  })
+</script>

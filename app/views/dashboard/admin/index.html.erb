@@ -1,0 +1,284 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/flash"%>
+<% if current_user.role? :superadmin or current_user.role? :admin %>
+<%= render 'profile' %>
+
+<%# Cards start here %>
+<div id="main" class="container mb-5 p-0">
+<% if false %>
+   <div class="card-columns mt-5">
+      <div class="card bg-primary">
+         <div class="card-body text-center">
+            <%= image_tag("admin_icon.png")%>
+            <p class="card-title">Admins</p>
+         </div>
+         <p class="card-text float-right mr-3"> Total admins: <%= @admins %></p>
+      </div>
+      <div class="card bg-yellow">
+         <div class="card-body text-center">
+            <%= image_tag("employee_icon.png")%>
+            <p class="card-title">Employees</p>
+         </div>
+         <p class="card-text float-right mr-3">Total employees: <%= @employees%> </p>
+      </div>
+      <div class="card bg-success">
+         <div class="card-body text-center">
+            <%= image_tag("team_icon.png")%>
+            <p class="card-title">Teams</p>
+         </div>
+         <p class="card-text float-right mr-3">Total teams: <%= @teams %> </p>
+      </div>
+      <div class="card bg-danger">
+         <div class="card-body text-center">
+            <%= image_tag("project_icon.png")%>
+            <p class="card-title">Projects</p>
+         </div>
+         <p class="card-text float-right mr-3">Total projects:<%= @projects %></p>
+      </div>
+      <div class="card bg-orange">
+         <div class="card-body text-center">
+            <%= image_tag("client_1_icon.png")%>
+            <p class="card-title" >Clients</p>
+         </div>
+         <p class="card-text float-right mr-3">Total clients: <%= @clients %></p>
+      </div>
+      <div class="card bg-info">
+         <div class="card-body text-center">
+            <%= image_tag("holiday_icon.png")%>
+            <p class="card-title">Holidays</p>
+         </div>
+         <p class="card-text float-right mr-3">Total holidays: <%= @holidays %></p>
+      </div>
+      <div class="card bg-yellow">
+         <div class="card-body text-center">
+            <%= image_tag("attendance_icon.png")%>
+            <p class="card-title">Attendence</p>
+         </div>
+         <p class="card-text float-right mr-3">Attendence</p>
+      </div>
+      <div class="card bg-success">
+         <div class="card-body text-center">
+            <%= image_tag("payroll_icon.png")%>
+            <p class="card-title">Payroll</p>
+         </div>
+         <p class="card-text float-right mr-3">Payroll</p>
+      </div>
+   </div>
+   <%# Cards end here %>
+   <% end %>
+   <div class="row" style="margin-right:-30px;margin-left:-30px; margin-top:30px;">
+         <div class="col-sm-6">
+         <h1 style="font-size: 16px;font-weight: 700;margin-bottom: 20px;">Progress</h1> 
+         <div class="col-sm-12" style="display:flex;  align-items: center;text-align:right;background-color: #fff;border: 1px solid #eaeaea; border-radius: 8px;margin-bottom:20px;box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);"> 
+         <canvas id="lineGraphChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         </div>
+         
+         <div class="col-sm-6" >
+         <h1 style="font-size: 16px;font-weight: 700;margin-bottom: 20px;">Productivity</h1> 
+         <div class="col-sm-12" style="display:flex;  align-items: center;text-align:right;background-color: #fff;border: 1px solid #eaeaea; border-radius: 8px;margin-bottom:20px;box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);">
+         <canvas id="barChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         </div>      
+   </div>
+   <div class="row" style="margin-right:-30px;margin-left:-30px; margin-top:30px;">
+         <div class="col-sm-6">
+         <h1 style="font-size: 16px;font-weight: 700;margin-bottom: 20px;">Activity</h1> 
+         <div class="col-sm-12" style="display:flex;  align-items: center;text-align:right;background-color: #fff;border: 1px solid #eaeaea; border-radius: 8px;margin-bottom:20px;box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);">
+         <canvas id="donutChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         </div>
+         
+         <div class="col-sm-6" >
+         <h1 style="font-size: 16px;font-weight: 700;margin-bottom: 20px;">Projects</h1> 
+         <div class="col-sm-12" style="display:flex;  align-items: center;text-align:right;background-color: #fff;border: 1px solid #eaeaea; border-radius: 8px;margin-bottom:20px;box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);">
+         <canvas id="pieChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         </div>      
+   </div>
+   <% if false %>
+   <div class="container mt-5 mb-5">
+      <h1 class="text-center"> Progress Charts </h1>
+      <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+      <div class="row shadow">
+         <div class="col-md-6">
+            <canvas id="lineGraphChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         <div class="col-md-6">
+            <canvas id="barChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         <div class="col-md-6 mt-5">
+            <canvas id="donutChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+         <div class="col-md-6 mt-5">
+            <canvas id="pieChart" style="width:100%;max-width:600px"></canvas>
+         </div>
+      </div>
+   </div>
+   <% end %>
+</div>
+<script>
+   var xValues = ['Jan', 'Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+   var yValues = [7,8,8,9,9,9,10,11,14,14,15];
+   
+   new Chart("lineGraphChart", {
+     type: "line",
+     data: {
+       labels: xValues,
+       datasets: [{
+         fill: false,
+         lineTension: 0,
+         backgroundColor: "rgba(120,145,76,1.0)",
+         borderColor: "rgba(0,0,255,0.1)",
+         data: yValues
+       }]
+     },
+     options: {
+       legend: {display: false},
+       scales: {
+         yAxes: [{ticks: {min: 6, max:16}}],
+       title: {
+         display: true,
+         text: "Customer growth"
+         }
+       }
+     }
+   });
+   
+   var xValues = ["Client1", "Client2", "Client3", "Client4", "Client5"];
+   var yValues = [55, 49, 44, 24, 15];
+   var barColors = ["#c2ea7a", "#78914C","#91B05C","#84A054","#B0D56F"];
+   
+   new Chart("barChart", {
+     type: "bar",
+     data: {
+       labels: xValues,
+       datasets: [{
+         backgroundColor: barColors,
+         data: yValues
+       }]
+     },
+     options: {
+       legend: {display: false},
+       title: {
+         display: true,
+         text: "Productivity"
+       }
+     }
+   });
+   var xValues = ["Mon", "Tue", "Wed", "Thur", "Fri"];
+   var yValues = [55, 49, 44, 24, 15];
+   var barColors = [
+      "#c2ea7a",
+      "#78914c",
+      "#91b05c",
+      "#84a054",
+      "#1e7145"
+   ];
+   
+   new Chart("donutChart", {
+     type: "doughnut",
+     data: {
+       labels: xValues,
+       datasets: [{
+         backgroundColor: barColors,
+         data: yValues
+       }]
+     },
+     options: {
+       title: {
+         display: true,
+         text: "Activity Trend"
+       }
+     }
+   });
+   
+   var xValues = ["Proj1", "Proj2", "Proj3", "Proj4", "Proj5"];
+   var yValues = [55, 49, 44, 24, 15];
+   var barColors = [
+      "#c2ea7a",
+      "#78914c",
+      "#91b05c",
+      "#84a054",
+      "#1e7145"
+   ];
+   
+   new Chart("pieChart", {
+     type: "pie",
+     data: {
+       labels: xValues,
+       datasets: [{
+         backgroundColor: barColors,
+         data: yValues
+       }]
+     },
+     options: {
+       title: {
+         display: true,
+         text: "Projects Completed"
+       }
+     }
+   });
+</script>
+<% else %>
+<%= render 'profile' %>
+<% end %>
+<div class="modal fade" id="profile_picture_modal">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal Header -->
+         <div class="modal-header modal-border">
+            <h4 class="modal-title page-title">Profile picture</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <!-- Modal body -->
+         <div class="modal-body">
+
+            
+            <%= form_with :url =>{:action => "update_photo", :id =>current_user} do  |f| %>
+            <label for="file">File to Upload</label> <%= f.file_field "avatar" %>
+            <%= submit_tag %>
+            <% end %>
+         </div>
+         <!-- Modal footer -->
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="status_modal">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <!-- Modal Header -->
+         <div class="modal-header modal-border">
+            <h4 class="modal-title">Choose a status</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <!-- Modal body -->
+         <div class="modal-body">
+            <input type="hidden", id='user_id' , value="<%= current_user.id %>", name="userstatus[user_id]">
+            <%= collection_select(:userstatus, :status_id, @status, :id, :status, {prompt: true}, {class: 'form-control current-status-select'}) %>
+         </div>
+         <!-- Modal footer -->
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+<div id="new-post-window" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content"></div>
+   </div>
+</div>
+<div id="edit-post-window" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content"></div>
+   </div>
+</div>
+<div id="new-post-image-window" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content"></div>
+   </div>
+</div>

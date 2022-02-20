@@ -1,0 +1,2 @@
+class Leavecounter < ApplicationRecord   
+end

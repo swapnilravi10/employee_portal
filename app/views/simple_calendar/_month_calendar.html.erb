@@ -1,0 +1,52 @@
+<div class="container">
+<div class="simple-calendar">
+  <div class="calendar-heading">
+  <% unless !current_page?('/dashboard/calendar')%>
+  <% if current_user.role? :superadmin %>
+  <%= link_to 'Manage events' , dashboard_calendar_event_list_path, :action=> 'list', :class=> 'float-left mt-2',style:"color: #374891;
+  text-decoration: underline;" %>
+  <% end %>
+  <% end %>
+    <%= link_to t('simple_calendar.previous', default: '<<'), calendar.url_for_previous_view %>
+    <span class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
+    <%= link_to t('simple_calendar.next', default: '>>'), calendar.url_for_next_view %>
+    <% unless !current_page?('/dashboard/calendar')%>
+    <% if current_user.role? :superadmin %>
+    <%= link_to 'Add event' , dashboard_calendar_event_new_path, :action=> 'new', :class=> 'float-right mt-2',style:"color: #374891 ;
+    text-decoration: underline;"%>
+    <% end %>
+    <% end %>
+    <% unless !current_request?(controller: 'attendance', action: 'index') %>
+      <%= link_to 'WFH' , dashboard_attendance_wfh_list_path, :action=> 'list_wfh', :class=> 'float-right mt-2' %>
+      <% if !current_user.role? :employee and !current_user.role? :program_manager and !current_user.role? :project_leader %>
+        <%= collection_select(:attendance, :user_id, @users, :id, :full_email_name, {prompt: 'Select employee'}, {class: 'form-control user-attendance mt-2', required: true}) %>
+      <% end %>
+    <% end %>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th><%= t('date.abbr_day_names')[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                <% capture_haml(day, sorted_events.fetch(day, []), &passed_block) %>
+              <% else %>
+                <% passed_block.call day, sorted_events.fetch(day, []) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+</div>

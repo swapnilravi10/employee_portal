@@ -1,0 +1,49 @@
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px;
+    }
+    .add-employee-btn{
+      background-color: #c2ea7a;
+      border: 0px;
+      border-radius: 25px;
+      color: #333333!important;
+      margin-top:10px;  
+   }
+}
+</style>
+<% if @projects.blank? %>
+    <h2 class="text-center mt-5">No projects yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Projects -> New to add new projects</p>
+<% else %>
+  <h2 class="page-title">Projects</h2>
+<table  id="tableList" class="table table-hover table-striped mt-5">
+    <thead>
+      <tr>
+        <th width="20%">Project name</th>
+        <th width="25%">Description</th>
+        <th width="20%">Client</th>
+        <th width="15%">Project leader</th>
+        <th width="20%"><input class="form-control" style="font-size:12px;" type="text" id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% @projects.each do |p| %>
+      <tr>
+        <td><%= p.name -%></td>
+        <td><%= p.description -%></td>
+        <td><%= p.client.present? ? p.client.client_full_name : "Anveshak (Inhouse)" -%></td>
+        <td><%= p.get_user(p.project_leader_id)&.full_name -%></td>
+        <td style="text-align:center;">
+          <%= link_to image_tag('edit_icon.png', :class => "mr-4", :title => "Edit") ,{action: 'edit', id:p.id}%>
+          <%= link_to image_tag('new-user.png', :title => "Manage project team", size: "20x20", :class => "mr-4"), {action: 'project_teams', controller: 'project_teams', id: p.id} %>
+          <%= link_to  p, method: :delete, data: {confirm: 'Are you sure?'} do %>
+            <%= image_tag('delete_icon.png',:title => "Delete") %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+     <%= paginate @projects ,remote: true %>
+  <% end %>

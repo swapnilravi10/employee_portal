@@ -1,0 +1,51 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5">
+<h2 class="text-center mb-5">Leave request details</h2>
+<div>
+<style>
+.col-md {
+    padding-bottom: 15px !important;
+    padding-top: 15px !important;
+    border-bottom: 2px solid black !important;
+}
+</style>
+<div class="container mb-5">
+  <div class="row">
+    <div class="col-md">
+        <strong>Start date:</strong>
+        <%= (@emp_leave.start_time).to_date %>
+    </div>
+    <div class="col-md">
+        <strong>Number of days:</strong>
+        
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md">
+        <strong>Employee name:</strong>
+        <%  @user = User.find_by(id: @emp_leave.requestee_id) %>
+        <%= @user.full_name %>
+    </div>
+    <div class="col-md">
+        <strong>Approved:</strong>
+        <%= yes_or_no(@emp_leave.approved) %>
+    </div>
+    <div class="col-md">
+        <% if @emp_leave.approval_date? %>
+            <strong>Approval date:</strong>
+            <%= (@emp_leave.approval_date).to_date %>
+        <% elsif @emp_leave.rejection_date? %>
+            <strong>Rejection date:</strong>
+            <%= (@emp_leave.rejection_date).to_date %>
+        <% else %>
+        <% end %>
+    </div>
+  </div>
+
+
+</div>
+<%= link_to 'Back', url_for(:back) %>
+</div>
+</body>
+</html>

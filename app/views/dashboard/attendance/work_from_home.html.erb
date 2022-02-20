@@ -1,0 +1,25 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5">
+<h2 class="text-center page-title mb-5">Add work from home</h2>
+<%= render "shared_admin/flash" %>
+<div>
+<%= form_tag :action => 'work_from_home' do %>
+  <div class="form-row">
+    <% if !current_user.role? :employee %>
+    <div class="form-group col-md-12">
+      <label>Select employee</label>
+      <%= collection_select(:empleave, :requestee_id, @users, :id, :full_email_name, {prompt: true}, {class: 'form-control', required: true}) %>
+    </div>
+    <% end %>
+    <div class="form-group col-md-6">
+        <label for="first_name">Event start date</label>
+        <%= date_field("empleave", "start_time", class: "form-control")%>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="first_name">Event end date</label>
+        <%= date_field("empleave", "end_time", class: "form-control")%>
+    </div>
+  <button type="submit" class="btn btn-primary  add-employee-btn">Add</button>
+<% end -%>  
+</div>

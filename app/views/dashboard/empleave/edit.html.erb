@@ -1,0 +1,73 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5">
+<h2 class="text-center mb-5 page-title">Update Leave</h2>
+<%= render "shared_admin/flash" %>
+<div>
+<%= form_for @empleave, :url =>{:action => "update", :id =>@empleave} do |t| %>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+        <label for="description">Description</label>
+        <%= text_field 'empleave', 'description', class: "form-control", placeholder:"Description" %>
+    </div>
+    <% @leave_details = Empleave.where(leave_identifier: @empleave.leave_identifier) %>
+    <div class="container" id="new_container" style="padding-left: 0px !important;padding-right: 0px !important;margin-bottom: 15px !important;">
+      <% @leave_details.each do |leave| %>
+        <div class="container border m-1">
+          <div class="row">
+            <%= hidden_field("empleave", "ids", value: leave.id.to_s, multiple: true) %>
+            <div class="form-group col-md-4 col-sm-12">
+              <label for="start_date">Leave date</label>
+              <%= date_field("empleave", "start_time", multiple: true, class: "form-control", value: leave.start_time.to_date ) %>
+            </div>
+            <div class="col-md-5 parent-control row col-sm-6" style="padding-top: 2rem!important;">
+              <label for="half_day">Half day</label>
+              <%= check_box("empleave", "half_day", {checked: leave.half_day, style: "width: 12px; height: 12px;", multiple: true, class: "half-day"})%>
+              <div class="half-day-for ml-3" hidden="true">
+                <input type="hidden" class="half-day-for-text" value=<%= leave.half_day_for %>>
+                <select class="form-control" name="empleave[half_day_for][]">
+                  <option value="First half">First half</option>
+                  <option value="Second half">Second half</option>
+                </select>
+              </div>
+            </div>
+            <% if current_user == @empleave.requestee && @empleave.notified == false && @empleave.cancelled == false %>
+              <button class="col-md-1 col-sm-6 btn btn-danger" type="button" onclick="$(this).parent('div').remove();" style="height: 40px;width: 40px;margin-top: 3%;margin-right: 1%;">X</button>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <% if current_user == @empleave.requestee && @empleave.notified == false && @empleave.cancelled == false %>
+    <div class="pb-4">
+      <button type="submit" class="btn btn-primary add-employee-btn" data-confirm="Are you sure?">Update</button>
+      <%= link_to "Delete", url_for(action: :delete_leave,id: params[:id]),method: :delete, title: 'Delete leave', class: 'btn btn-danger', style:'border-radius:25px;' , 'data-toggle' => 'tooltip', 'data-placement' => 'right', data: {confirm: "Are you sure?"} %> 
+      <%= link_to "Add new leave", dashboard_dynamic_add_leave_path, :class => "btn btn-info add-employee-btn", :style => "float: right;", remote: true %>
+    </div>
+  <% end %>
+<% end -%>  
+</div>
+<script>
+$(document).ready(function() {
+  $('.edit-user-search').select2()
+  for (let e of document.getElementsByClassName("half-day")) {
+    if (e.checked == true) {
+      $(e).closest('.parent-control').find('.half-day-for').prop("hidden", false)
+      $(e).closest('.parent-control').find('.half-day-for').find("option").each(function () {
+        if ($(this).val() == $(e).closest('.parent-control').find('.half-day-for-text').val()+" half") {
+          $(this).prop("selected", "selected");
+        }
+      });
+    }
+  }
+  $('.half-day').click(function() {
+    if (this.checked == true) {
+      $(this).closest('.parent-control').find('.half-day-for').prop("hidden", false)
+    } else {
+      $(this).closest('.parent-control').find('.half-day-for').prop("hidden", true)
+    }
+  })
+})
+</script>

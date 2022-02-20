@@ -1,0 +1,6 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mb-5 pr-5 pl-5" id="main_container">
+<%= link_to 'Add Team' , new_dashboard_team_path, :action=> 'new', :class=> 'float-right btn btn-primary add-employee-btn' %>
+<%= render "teams" %>
+</div>

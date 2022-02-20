@@ -1,0 +1,141 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<h2 class="text-center mb-5 page-title">New Employee</h2>
+<%= render "shared_admin/flash" %>
+<ul class="nav nav-tabs">
+  <li class="nav-item"><a class="nav-link active tab-padding" data-toggle="tab" href="#basic_details">Basic details</a></li>
+  <li class="nav-item"><a class="nav-link tab-padding" data-toggle="tab" href="#bank_details">Bank details</a></li>
+  <li class="nav-item"><a class="nav-link tab-padding" data-toggle="tab" href="#education_details">Educational details</a></li>
+  <li class="nav-item"><a class="nav-link tab-padding" data-toggle="tab" href="#work_ex">Work experience</a></li>
+</ul>
+<%= form_tag :action => 'create' do %>
+<div class="tab-content">
+<div id="basic_details" class="container tab-pane active mt-4">
+  <div class="form-row my-2" style="color: red;">
+    *All the fields are mandatory.
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">First name</label>
+      <%= text_field 'user', 'first_name', class: "form-control", placeholder:"First name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Last name</label>
+      <%= text_field 'user', 'last_name', class: "form-control", placeholder:"Last name" %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="email">Email</label>
+      <%= text_field 'user', 'email', class: "form-control", placeholder:"Email address" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="phone_number">Phone number</label>
+      <%= text_field 'user', 'phone_number', class: "form-control", placeholder:"Phone number",:maxlength => 15 %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="password">Password</label>
+      <%= password_field 'user', 'password', class: "form-control", placeholder:"Password" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="password_confirmation">Retype password</label>
+      <%= password_field 'user', 'password_confirmation', class: "form-control", placeholder:"Confirm password" %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="role">Role</label>
+      <%= collection_select(:role, :id, Role.all, :id, :role_name, {prompt: true}, {class: 'form-control new-role-search', multiple: true}) %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="designation">Designation</label>
+      <%= collection_select(:user, :designation_id, Designation.all, :id, :get_designation_name, {prompt: true}, {class: 'form-control new-role-search'}) %>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_name">Adhar number</label>
+      <%= text_field 'user', 'adhar_card_number', class: "form-control", placeholder:"Adhar number",:maxlength => 12 %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="first_name">Date of Joining</label>
+      <%= date_field("user", "date_of_joining", class: "form-control")%>
+    </div>
+  </div>  
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_name">Emergency contact name</label>
+      <%= text_field 'user', 'emergency_contact_name', class: "form-control", placeholder:"Emergency contact name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="emergency_contact_number">Emergency contact number</label>
+      <%= text_field 'user', 'emergency_contact_number', class: "form-control", placeholder:"Emergency contact number",:maxlength => 10 %>
+    </div>
+  </div>
+</div>  
+<div id="bank_details" class="container tab-pane fade mt-4">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Bank name</label>
+      <%= text_field :bankdetail ,:bank_name , class: "form-control", placeholder:"Bank name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Account number</label>
+      <%= text_field :bankdetail, :account_number , class: "form-control", placeholder:"Account number", :maxlength => 20%>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="email">IFSC code</label>
+      <%= text_field :bankdetail, :ifsc_code ,class: "form-control", placeholder:"IFSC",:maxlength => 12%>
+    </div>
+  </div>
+</div>
+<div id="education_details" class="container tab-pane fade mt-4">
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Highest education</label>
+      <%= text_field :employeeeducation ,'highest_education' , class: "form-control", placeholder:"Highest education" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Year of passing</label>
+      <%= number_field :employeeeducation, 'year_of_passing' , class: "form-control", placeholder:"Year of passing"%>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="first_name">University</label>
+      <%= text_field :employeeeducation ,'university' , class: "form-control", placeholder:"University" %>
+    </div>
+     <div class="form-group col-md-6">
+      <label for="first_name">College</label>
+      <%= text_field :employeeeducation ,'college' , class: "form-control", placeholder:"College" %>
+    </div>
+  </div>
+</div>
+<div id="work_ex" class="container tab-pane fade mt-4">
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="first_name">Duration of work with previous employer(s)</label>
+      <%= number_field :workexperience ,'duration_of_work' , step: :any, class: "form-control", placeholder:"0.5 or 2.3" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="last_name">Role</label>
+      <%= text_field :workexperience, 'role' , class: "form-control", placeholder:"Role"%>
+    </div>
+    <div class="form-group col-md-12">
+      <label for="last_name">Technologies known</label>
+      <%= collection_select(:usertechnologies, :technology_id, @technology, :id, :name, {prompt: true}, {class: 'form-control team-members-search', :multiple=>true}) %>
+    </div>
+  </div>
+</div>
+    <button type="submit" class="btn btn-primary add-new-emp-btn">Add New Employee</button>
+</div>
+<% end -%>
+
+<script>
+$(document).ready(function() {
+  $('.new-role-search').select2()
+})
+</script>

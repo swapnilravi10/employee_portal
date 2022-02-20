@@ -1,0 +1,62 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mb-5">
+<div>
+<%= render "shared_admin/flash" %>
+</div>
+<% if @admins.blank? %>
+    <h2 class="text-center mt-5">No users yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Admins -> New to add new admins</p>
+<% else %>
+  <h2 class="text-center mt-5 page-title">Users</h2>
+  <p></p>            
+  <table  class="table table-hover table-striped mt-5">
+  
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th style="width:30%;">Email</th>
+        <th>Phone number</th>
+        <th>Role</th>
+        <th style="width:18%;"><input class="form-control"  style="font-size: 12px !important"  type="text" id="searchInput" placeholder="Search.."></th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% @admins.each do |a| %>
+      <tr>
+        <td><%= a.first_name -%></td>
+        <td><%= a.last_name -%></td>
+        <td><%= a.email -%></td>
+        <td><%= a.phone_number -%></td> 
+        <% if a.role? :admin %>
+          <td> Admin </td>
+        <% elsif a.role? :superadmin %>
+          <td> Superadmin </td>
+        <% elsif a.role? :program_manager  %>
+          <td> Program Manager </td>
+        <% elsif a.role? :project_leader  %>
+          <td> Program Manager </td>
+        <% else %>
+          <td> - </td>
+        <% end %>
+        <td style="padding-left:5%">
+        <%= link_to image_tag('edit_icon.png', :class => "mr-4"),{action: 'edit', id:a.id}%>
+        <%= link_to a, method: :delete, data: {confirm: 'Are you sure?'} do %>
+          <%= image_tag('delete_icon.png')  %>
+        <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+    
+  </table>
+  <% if @page != 0 %>
+  <%= link_to "< Previous",{action: 'list', page:@page-1} %>
+  <% end %>
+  <% if @next_flag && @page + 1 == @last_page %>
+  <%= link_to "Next >",{action: 'list', page:@page+1},class:"float-right next"%>
+  <% end %>
+</div>
+<% end %>
+</div>

@@ -1,0 +1,12 @@
+$("#tableList").html("<%= escape_javascript(render("events")) %>");
+console.log(<%= @page %>)
+console.log(<%= @last_page%>)
+
+if (<%= @page %> == <%= @last_page%>)
+  {
+    document.getElementById("next-page").style.display = "none";
+    document.getElementById("prev-page").style.display = "block";
+  }
+else{
+  document.getElementById("next-page").style.display = "block";
+}

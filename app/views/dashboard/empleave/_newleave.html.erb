@@ -1,0 +1,34 @@
+<div class="pb-3">
+  <label for="description">Description</label>
+  <input type="text" class="form-control" id="description" name="empleave[description]" required>
+</div>
+<div class="container">
+    <div class="row">
+      <div class="col-md-4 pl-0 pb-2">
+        <label for="start_time">Leave date</label>
+        <input type="date" class="form-control" id="start_time" name="empleave[start_time][]" required>
+        <!-- <%= date_field("empleave", "start_time",multiple: true, class: "form-control")%> -->
+      </div>
+      <div class="col-md-6 row" style="padding-top: 2rem!important;">
+        <label for="half_day">Half day</label>
+        <%= check_box("empleave", "half_day", multiple: true, :style => "width: 12px; height: 12px;", :class => "half-day mt-1",  :id => "half-day-x") %>
+        <div class="ml-3" id="half-day-for-x" hidden="true">
+          <select class="form-control" name="empleave[half_day_for][]">
+            <option value="First half">First half</option>
+            <option value="Second half">Second half</option>
+          </select>
+        </div>
+      </div>
+    </div>
+</div>
+<script>
+  $(document).ready(function() {
+    $('.half-day').click(function() {
+      if (this.checked == true) {
+        $('#half-day-for-x').removeAttr("hidden")
+      } else {
+        $('#half-day-for-x').prop("hidden", true)
+      }
+    })
+  })
+</script>

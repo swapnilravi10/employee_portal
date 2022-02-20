@@ -1,0 +1,27 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5">
+<h2 class="text-center mb-5 page-title">Add Event</h2>
+<%= render "shared_admin/flash" %>
+<div>
+<%= form_tag :action => 'create' do %>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="first_name">Event name</label>
+      <%= text_field 'event', 'event_name', class: "form-control", placeholder:"Event name" %>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="first_name">Event start date</label>
+        <%= date_field("event", "start_time", class: "form-control")%>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="first_name">Event end date</label>
+        <%= date_field("event", "end_time", class: "form-control")%>
+    </div>
+    <div class="form-group col-md-12">
+    <label for="first_name">Holiday</label>
+    <%= check_box("event", "holiday")%>
+    </div>
+  <button type="submit" class="btn btn-primary add-new-emp-btn">Add</button>
+<% end -%>  
+</div>

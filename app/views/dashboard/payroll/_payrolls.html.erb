@@ -1,0 +1,392 @@
+<div id="payrollData">
+   <%= form_for @payroll[0], :url =>{:action => "update", :id =>@payroll[0]} do |p| %>
+   <div class="container">
+   
+      <div class="row">
+      
+         <div class="col-md-9">
+            <h5 class=" page-title">Anveshak Technology and Knowledge Solutions LLP</h5>
+            <h6>349 Hingne Khurd, Sinhagad Road, Pune, India</h6>
+         </div>
+         <div class="col-md-3 text-right">
+            <%= p.month_field("month", class: "form-control mb-3", id: "month_field")%>
+            <%= p.hidden_field("user_id", id: "user_id") %>
+            <%= link_to "Download pdf",dashboard_payroll_month_path(:month => @payroll[0].month.strftime("%Y-%m"), :user =>@employee.id  , format: :pdf), method: :post, class: "add-new-emp-btn" %>
+         </div>
+      </div>
+      <h5 class="text-center mt-3 mb-3  page-title">Salary for the Month of <%= @payroll[0].month.strftime("%B %Y") %></h5>
+      <table class="table">
+         <tr>
+            <th>
+               Name
+            </th>
+            <th>
+               <%= @employee.full_name %>
+            </th>
+            <th>
+               Date of Joining
+            </th>
+            <th>
+               <%= @employee.date_of_joining.strftime("%d %b %y") %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Desgination
+            </th>
+            <th>
+               <% if !@designation.blank? %>
+                  <%= @designation.get_designation_name %>
+               <% end %>
+            </th>
+            <th>
+               Days of Pay in the Month
+            </th>
+            <th>
+               <%= @payroll[0].month.end_of_month.day %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Bank A/C No
+            </th>
+            <th>
+               <% if !@bankdetail.blank? %>
+                  <%= @bankdetail.account_number %>
+               <% end %>
+            </th>
+            <th>
+               Days Paid
+            </th>
+            <th>
+               <% if !@days_paid.blank? %>
+                  <%= @days_paid %>
+               <% else %>
+                  <%= @payroll[0].month.end_of_month.day %>
+               <% end %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+               Vacation Days Taken
+            </th>
+            <th>
+               <%= @vacation_days_taken.count%>
+            </th>
+         </tr>
+         <tr>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+               Vacation Days YTD
+            </th>
+            <th>
+               0
+            </th>
+         </tr>
+         <tr>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+               Leave without pay
+            </th>
+            <th>
+               <% if @leave_without_pay.blank? %>
+                  0
+               <% else %>
+                  <%= @leave_without_pay %>
+               <% end %>
+            </th>
+         </tr>
+      </table>
+      <table class="table" style="">
+         <tr>
+            <th>
+               Earnings
+            </th>
+            <th>
+            </th>
+            <th>
+               Current Month Rs    
+            </th>
+            <th>
+               <%= @employee.date_of_joining.strftime("%B %Y") %> to Date Rs
+            </th>
+            <th>
+               Deductions
+            </th>
+            <th>
+            </th>
+            <th>
+               Current Month Rs
+            </th>
+            <th>
+               <%= @employee.date_of_joining.strftime("%B %Y") %> to Date Rs
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Basic
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'basic_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%>
+            </th>
+            <th>
+               <%= p.number_field 'basic_to_date', :disabled => true, :class => 'payroll-field'  %>
+            </th>
+            <th>
+               Professional Tax
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'professional_tax_current_month', :class => 'payroll-field dynamic-payroll-calculation-deductions'%>
+            </th>
+            <th>
+               <%= p.number_field 'professional_tax_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Dearness Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'dearness_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%>
+            </th>
+            <th>
+               <%= p.number_field 'dearness_allowance_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+            <th>
+               Income Tax
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'income_tax_current_month', :class => 'payroll-field dynamic-payroll-calculation-deductions'%>
+            </th>
+            <th>
+               <%= p.number_field 'income_tax_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Conveyance Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'conveyance_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%>
+            </th>
+            <th>
+               <%= p.number_field 'conveyance_allowance_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+            <th>
+               Salary Advance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'salary_advance_current_month', :class => 'payroll-field dynamic-payroll-calculation-deductions'%>
+            </th>
+            <th>
+               <%= p.number_field 'salary_advance_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               House Rent Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'house_rent_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%> 
+            </th>
+            <th>
+               <%= p.number_field 'house_rent_allowance_to_date', :disabled => true, :class => 'payroll-field'%> 
+            </th>
+            <th>
+               Other
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'other_current_month', :class => 'payroll-field dynamic-payroll-calculation-deductions'%> 
+            </th>
+            <th>
+               <%= p.number_field 'other_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Professional Development Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'professional_development_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%> 
+            </th>
+            <th>
+               <%= p.number_field 'professional_development_allowance_to_date', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Children Education Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'children_education_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%> 
+            </th>
+            <th>
+               <%= p.number_field 'children_education_allowance_to_date', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Telephone Expense Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'telephone_expense_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%> 
+            </th>
+            <th>
+               <%= p.number_field 'telephone_expense_allowance_to_date', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Medical Allowance
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'medical_allowance_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%> 
+            </th>
+            <th>
+               <%= p.number_field 'medical_allowance_to_date', :disabled => true, :class => 'payroll-field' %>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+         </tr>
+         <tr>
+            <th>
+               Others
+            </th>
+            <th>
+            </th>
+            <th>
+               <%= p.number_field 'others_current_month', :class => 'payroll-field dynamic-payroll-calculation-earnings'%> 
+            </th>
+            <th>
+               <%= p.number_field 'others_to_date', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+         </tr>
+         <tr>
+            <th>
+                Total
+            </th>
+            <th>
+               
+            </th>
+            <th>
+               <%= p.number_field 'earning_total_current_month', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+               <%= p.number_field 'earning_total_to_date', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+                 Total
+            </th>
+            <th>
+              
+            </th>
+            <th>
+               <%= p.number_field 'deduction_total_current_month', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+               <%= p.number_field 'deduction_total_to_date', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+         </tr>
+         <tr>
+            <th>
+                Net Current Pay
+            </th>
+            <th>
+               
+            </th>
+            <th>
+               <%= p.number_field 'net_current_pay', :disabled => true, :class => 'payroll-field' %> 
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+         </tr>
+      </table>
+      <% if current_user.role? :superadmin %>
+      <div>
+         <button type="submit" class="btn btn-primary add-new-emp-btn" >Update</button>
+      </div>
+      <% end %>
+   </div>
+     
+   <% end -%>  
+</div>

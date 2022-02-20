@@ -1,0 +1,68 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<style>
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1500px!important;
+    }
+}
+</style>
+<div id="main_container" class="container mb-5 pr-5 pl-5" >
+<%= render "shared_admin/flash" %>
+<% if @leavecounters.blank? %>
+    <h2 class="text-center mt-5">No Leave Requests Yet</h2>
+    <p class="text-center mt-4">Click on Actions -> Leaves -> New to add new leaves</p>
+<% else %>
+<div class="row">
+  <div class="col-md-6">
+  <h2 class="page-title">Employee leaves</h2>
+  </div>
+  <div class="col-md-6">
+  <input class="form-control emp-leave-searchbox" type="text" id="searchInput" placeholder="Search..">
+  <p></p>  
+  </div>  
+  </div>        
+  <table class="table table-hover table-striped mt-5">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Allowed Leaves</th>
+        <th>Leaves Taken</th>
+        <th>Year</th>
+        <th>Current Year Leaves</th>
+        <th>Current Year Remaining Leaves</th>
+        <th>View Requests</th>
+      </tr>
+    </thead>
+    <tbody id="tableData">
+    <% @leavecounters.each do |c| %>
+        <% @emp = User.find_by(:id => c.user_id)
+        if @emp.blank? %>
+          <tr>
+          <td>-</td>
+          <tr>
+        <% else %>
+          <% if @emp.empleave_access.include? current_user.id or current_user.role? :superadmin or current_user.role? :admin %>
+            <tr>
+            <% @leave_details = @emp.leave_followup %>
+            <td><%= @emp.full_name %></td>
+            <td><%= @leave_details['allowed_leaves'] %></td>
+            <td><%= @leave_details['total_leaves'] %></td>
+            <td><%= c.year %></td>
+            <td><%= @leave_details['current_year_leaves']%></td>
+            <td><%= @leave_details['current_year_remaining_leaves']%></td>
+            <td><%= link_to "View requests", url_for(action: :show,id: c.user_id),method: :get, title: 'View requests',style:"color: #374891;
+            text-decoration: underline;" %>
+            </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @leavecounters ,remote: true %>
+</div>
+<% end %>
+</div>
+</body>
+</html>

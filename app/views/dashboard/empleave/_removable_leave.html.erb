@@ -1,0 +1,32 @@
+<div class="container removable">
+  <div class="row">
+    <div class="col-md-4 col-sm-12 pb-2 pl-0">
+      <label for="start_date">Leave date</label>
+      <input type="date" class="form-control" id="start_time" name="empleave[start_time][]" required>
+      <!-- <%= date_field("empleave", "start_time",multiple: true, class: "form-control")%> -->
+    </div>
+    <div class="col-md-5 col-sm-6 parent-control row" style="padding-top: 2rem!important;">
+      <label for="half-day mt-2">Half day</label>
+      <%= check_box("empleave", "half_day", multiple: true, :style => "width: 12px; height: 12px;", :class => "half-day mt-1")%>
+      <div class="half-day-for ml-3" hidden="true">
+        <select class="form-control" name="empleave[half_day_for][]">
+          <option value="First half">First half</option>
+          <option value="Second half">Second half</option>
+        </select>
+      </div>
+    </div>
+    <button class="col-md-1 col-sm-5 btn btn-danger" type="button" onclick="$(this).parent('div').remove();" style="height: 40px;width: 40px;margin-top: 3%;margin-right: 1%;">X</button>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.half-day').click(function() {
+      if (this.checked == true) {
+        $(this).closest('.parent-control').find('.half-day-for').prop("hidden", false)
+      } else {
+        $(this).closest('.parent-control').find('.half-day-for').prop("hidden", true)
+      }
+    })
+  })
+</script>

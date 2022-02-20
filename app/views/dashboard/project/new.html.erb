@@ -1,0 +1,34 @@
+<%= render "shared_admin/navs" %>
+<%= render "shared_admin/breadcrumbs" %>
+<div class="container mt-5 mb-5 pl-5 pr-5">
+<h2 class="text-center mb-5 page-title">New Project</h2>
+<%= render "shared_admin/flash" %>
+<div>
+<%= form_tag :action => 'create' do %>
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="first_name">Project name</label>
+      <%= text_field 'project', 'name', class: "form-control", placeholder:"Project name" %>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="first_name">Project leader</label>
+      <%= collection_select(:project, :project_leader_id, @users, :id, :full_name, {prompt: true}, {class: 'form-control new-team-search'}) %>
+    </div>
+  <div class="form-group col-md-6">
+    <label for="first_name">Client</label>
+    <%= collection_select(:project, :client_id, @clients, :id, :client_full_name, {prompt: true}, {class: 'form-control new-team-search'}) %>
+  </div>
+    <div class="form-group col-md-12">
+      <label for="last_name">Description</label>
+      <%= text_area( :project, :description, class: "form-control", placeholder:"Description") %>
+    </div>
+   
+  </div>
+  <button type="submit" class="btn btn-primary add-new-emp-btn">Add</button>
+<% end -%>  
+</div>
+<script>
+$(document).ready(function() {
+  $('.new-team-search').select2()
+})
+</script>

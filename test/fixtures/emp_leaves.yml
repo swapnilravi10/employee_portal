@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_date: 
+  end_date: 
+  description: 
+  approved: 
+  approval_date: 2021-05-21 15:41:42
+
+two:
+  start_date: 
+  end_date: 
+  description: 
+  approved: 
+  approval_date: 2021-05-21 15:41:42

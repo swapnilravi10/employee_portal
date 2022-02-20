@@ -1,0 +1,9 @@
+node_modules
+*.pid
+/log/*
+/tmp/*
+/tmp
+log
+
+# Ignore application configuration
+/config/application.yml
